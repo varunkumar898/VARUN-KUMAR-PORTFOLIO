@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
+  --color-bg-primary: #0B0D0F;
+  --color-bg-secondary: #111417;
+  --color-bg-tertiary: #161A1F;
+  --color-border-subtle: #25292D;
+  --color-border-bright: #363C43;
+  --color-text-primary: #E8EAED;
+  --color-text-secondary: #9AA0A6;
+  --color-accent: #C8FF00;
+}
+
+@layer base {
+  body {
+    background-color: #0B0D0F;
+    color: #E8EAED;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Engineering PCB Grid & Dot backgrounds */
+.bg-grid-pattern {
+  background-size: 28px 28px;
+  background-image: 
+    linear-gradient(to right, rgba(37, 41, 45, 0.45) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(37, 41, 45, 0.45) 1px, transparent 1px);
+}
+
+.bg-dot-pattern {
+  background-size: 20px 20px;
+  background-image: radial-gradient(rgba(200, 255, 0, 0.15) 1px, transparent 1px);
+}
+
+/* Engineering terminal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0D0F;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #25292D;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #363C43;
+}
