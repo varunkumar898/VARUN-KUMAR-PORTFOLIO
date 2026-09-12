@@ -1,69 +1,90 @@
 import React from 'react';
-import { ENGINEERING_APPROACH } from '../data/portfolioData';
-import { BookOpen, Activity, Bug, CheckCircle2, ChevronRight } from 'lucide-react';
+import { BookOpen, Activity, Bug, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const EngineeringPhilosophy: React.FC = () => {
-  const getIcon = (step: string) => {
-    switch (step) {
-      case '01':
-        return <BookOpen className="w-4 h-4 text-[#C8FF00]" />;
-      case '02':
-        return <Activity className="w-4 h-4 text-[#C8FF00]" />;
-      case '03':
-        return <Bug className="w-4 h-4 text-[#C8FF00]" />;
-      case '04':
-      default:
-        return <CheckCircle2 className="w-4 h-4 text-[#C8FF00]" />;
-    }
-  };
+  const stages = [
+    {
+      step: '01',
+      title: 'UNDERSTAND',
+      desc: 'Datasheets, hardware schematics, memory maps, timing constraints, and register bitfield definitions.',
+      icon: <BookOpen className="w-5 h-5 text-[#D4AF37]" />,
+    },
+    {
+      step: '02',
+      title: 'MEASURE',
+      desc: 'Physical logic levels, clock jitter, bus protocol frames with digital storage oscilloscope and logic analyzer.',
+      icon: <Activity className="w-5 h-5 text-[#1E90FF]" />,
+    },
+    {
+      step: '03',
+      title: 'DEBUG',
+      desc: 'GDB interactive breakpoints, OpenOCD in-circuit tracing, hardware fault register inspection, and ISR safety.',
+      icon: <Bug className="w-5 h-5 text-[#00D9FF]" />,
+    },
+    {
+      step: '04',
+      title: 'VALIDATE',
+      desc: 'Stress cycling, boundary test fixtures, power rail stability, and deterministic timing verification on real silicon.',
+      icon: <CheckCircle2 className="w-5 h-5 text-[#10B981]" />,
+    },
+  ];
 
   return (
-    <section id="philosophy" className="py-16 bg-[#111417] border-b border-[#25292D] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Lead Quote */}
-        <div className="mb-10 text-center max-w-3xl mx-auto">
-          <div className="text-xs font-mono text-[#C8FF00] tracking-widest uppercase mb-2">
-            // ENGINEERING APPROACH
-          </div>
-          <blockquote className="text-xl sm:text-2xl lg:text-3xl font-mono font-bold text-[#E8EAED] tracking-tight">
+    <section
+      id="philosophy"
+      className="py-20 bg-[#1A1F28] border-b border-[#2D3748] relative"
+    >
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
+        {/* Section Heading */}
+        <div className="text-center max-w-3xl mx-auto mb-14">
+          <h2 className="text-[32px] leading-[40px] font-bold text-[#F0F4F8] tracking-tight">
+            ENGINEERING APPROACH
+          </h2>
+          <div className="w-10 h-[1px] bg-[#2D3748] mx-auto my-3" />
+          <p className="text-lg text-[#A8B8C8]">
             "Understand the hardware. Measure the behavior. Trace the firmware. Validate on silicon."
-          </blockquote>
-          <p className="mt-3 text-xs sm:text-sm font-mono text-[#9AA0A6]">
-            Four-stage systematic discipline eliminating guesswork from embedded development.
           </p>
         </div>
 
-        {/* 4 Stages Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {ENGINEERING_APPROACH.map((item, idx) => (
-            <div
-              key={item.step}
-              className="p-5 rounded bg-[#0B0D0F] border border-[#25292D] hover:border-[#C8FF00]/50 transition-all duration-150 flex flex-col justify-between group"
-            >
-              <div>
-                <div className="flex items-center justify-between border-b border-[#25292D] pb-3 mb-3">
-                  <span className="font-mono text-xs text-[#9AA0A6] font-semibold">STAGE {item.step}</span>
-                  <div className="p-1.5 rounded bg-[#161A1F] border border-[#25292D]">
-                    {getIcon(item.step)}
+        {/* Four Stages (Horizontal on desktop, connected with lines) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+          {stages.map((stage, idx) => (
+            <div key={stage.step} className="relative group">
+              <div className="h-full p-6 rounded bg-[#0D1117] border border-[#2D3748] hover:border-[#1E90FF] hover:shadow-lg hover:shadow-[#1E90FF]/10 transition-all duration-200 flex flex-col justify-between">
+                <div>
+                  {/* Icon and Step Indicator */}
+                  <div className="flex items-center justify-between border-b border-[#2D3748] pb-3 mb-4">
+                    <span className="font-mono text-xs text-[#A8B8C8]">
+                      STAGE {stage.step}
+                    </span>
+                    <div className="p-2 rounded bg-[#1A1F28] border border-[#2D3748]">
+                      {stage.icon}
+                    </div>
                   </div>
+
+                  {/* Stage Title: 16px white */}
+                  <h3 className="text-base font-bold text-[#F0F4F8] tracking-wide mb-2">
+                    {stage.title}
+                  </h3>
+
+                  {/* Description: 13px secondary text */}
+                  <p className="text-[13px] leading-[22px] text-[#A8B8C8]">
+                    {stage.desc}
+                  </p>
                 </div>
 
-                <div className="text-base font-mono font-bold text-[#E8EAED] group-hover:text-[#C8FF00] transition-colors">
-                  {item.title}
+                <div className="mt-4 pt-3 border-t border-[#2D3748] flex items-center justify-between text-[11px] font-mono text-[#6B7280]">
+                  <span>DISCIPLINE</span>
+                  <span className="text-[#10B981]">SYSTEMATIC</span>
                 </div>
-                <div className="text-xs font-mono text-[#C8FF00] mt-0.5 mb-2">
-                  {item.lead}
-                </div>
-
-                <p className="text-xs text-[#9AA0A6] leading-relaxed">
-                  {item.description}
-                </p>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-[#25292D] flex items-center justify-between text-[10px] font-mono text-[#9AA0A6]">
-                <span>{idx < 3 ? `PHASE ${idx + 1} → PHASE ${idx + 2}` : 'FINAL SIG-OFF'}</span>
-                <ChevronRight className="w-3 h-3 text-[#C8FF00]" />
-              </div>
+              {/* Arrow connector between stages on desktop */}
+              {idx < 3 && (
+                <div className="hidden lg:flex absolute -right-3.5 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-[#1A1F28] border border-[#2D3748] items-center justify-center text-[#1E90FF]">
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
+              )}
             </div>
           ))}
         </div>

@@ -1,94 +1,116 @@
 import React, { useState } from 'react';
-import { FileText, Download, Eye, CheckCircle2, AlertCircle } from 'lucide-react';
-import { PROFILE } from '../data/portfolioData';
+import { Download, Eye, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
+import { usePortfolio } from '../context/PortfolioContext';
 
 interface ResumeSectionProps {
   onOpenResumeModal: () => void;
 }
 
 export const ResumeSection: React.FC<ResumeSectionProps> = ({ onOpenResumeModal }) => {
+  const { resume } = usePortfolio();
   const [downloadNotice, setDownloadNotice] = useState(false);
 
-  const handleDownloadClick = () => {
+  const handleDownload = () => {
     setDownloadNotice(true);
-    setTimeout(() => setDownloadNotice(false), 4000);
+    const link = document.createElement('a');
+    // If admin uploaded a base64 or URL file, use it; else fallback
+    link.href = resume?.fileUrl || '/resume/Varun_Kumar_Resume.pdf';
+    link.download = resume?.fileName || 'Varun_Kumar_Resume.pdf';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => setDownloadNotice(false), 5000);
   };
 
   return (
-    <section id="resume" className="py-20 bg-[#0B0D0F] border-b border-[#25292D] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 border-b border-[#25292D] pb-5 gap-4">
-          <div>
-            <div className="text-xs font-mono text-[#C8FF00] tracking-widest uppercase mb-1">
-              // SECTION 08
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold font-mono text-[#E8EAED] tracking-tight uppercase">
-              RESUME
-            </h2>
-            <div className="text-sm font-mono text-[#9AA0A6] mt-1">
-              "View my experience, projects, technical skills and education."
-            </div>
-          </div>
-          <div className="text-xs font-mono text-[#9AA0A6] bg-[#111417] px-3 py-1.5 rounded border border-[#25292D] flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C8FF00]"></span>
-            <span>VERIFIED CV SPECIFICATION</span>
-          </div>
+    <section
+      id="resume"
+      className="py-20 bg-[#0D1117] border-b border-[#2D3748] relative"
+    >
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
+        {/* Section Heading */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-[32px] leading-[40px] font-bold text-[#F0F4F8] tracking-tight">
+            RESUME
+          </h2>
+          <div className="w-10 h-[1px] bg-[#2D3748] mx-auto my-3" />
+          <p className="text-base text-[#A8B8C8]">
+            "Available for full-time embedded systems roles."
+          </p>
         </div>
 
-        {/* Resume Card */}
-        <div className="rounded bg-[#111417] border border-[#25292D] p-6 sm:p-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
-          <div className="space-y-4 max-w-2xl">
-            <div className="flex items-center gap-2.5 text-xs font-mono text-[#C8FF00]">
-              <FileText className="w-4 h-4" />
-              <span>OFFICIAL EMBEDDED & FIRMWARE RESUME</span>
+        {/* Two Action Cards (Side by side) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Card 1: DOWNLOAD PDF (Primary Action) */}
+          <div className="p-8 rounded-[4px] bg-[#1A1F28] border border-[#2D3748] hover:border-[#D4AF37] hover:shadow-[0_8px_32px_rgba(212,175,55,0.08)] transition-all duration-200 flex flex-col justify-between group">
+            <div className="space-y-3 mb-8">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-bold text-[#F0F4F8] tracking-wide">
+                  DOWNLOAD PDF
+                </h3>
+                <div className="p-2 rounded bg-[#0D1117] border border-[#2D3748] text-[#D4AF37]">
+                  <Download className="w-4 h-4" />
+                </div>
+              </div>
+
+              <p className="text-sm text-[#A8B8C8] leading-relaxed">
+                Standard single-page technical curriculum vitae formatted for engineering review and ATS parsing.
+              </p>
+
+              <div className="text-xs font-mono text-[#D4AF37]">
+                VERSION: v{resume?.version || 1} • {resume?.fileName || 'PDF FORMAT'}
+              </div>
             </div>
 
-            <h3 className="text-xl sm:text-2xl font-mono font-bold text-[#E8EAED]">
-              Varun Kumar — Curriculum Vitae
-            </h3>
-
-            <p className="text-xs sm:text-sm text-[#9AA0A6] leading-relaxed">
-              Comprehensive technical resume detailing register-level driver development, FreeRTOS automotive architectures, compiler contributions, laboratory instrumentation methodologies, and academic coursework.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-[#9AA0A6] pt-1">
-              <span>PDF Path: <code className="text-[#E8EAED] bg-[#0B0D0F] px-2 py-0.5 rounded border border-[#25292D]">/resume/Varun_Kumar_Resume.pdf</code></span>
-              <span>Updated for 2026 Opportunities</span>
-            </div>
+            <button
+              onClick={handleDownload}
+              id="resume-download-btn"
+              className="w-full py-3 px-6 rounded bg-[#D4AF37] hover:bg-[#e0bc46] text-[#0D1117] font-bold text-xs uppercase tracking-wider transition-all duration-150 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] cursor-pointer"
+            >
+              <Download className="w-4 h-4" />
+              <span>DOWNLOAD RESUME (v{resume?.version || 1})</span>
+            </button>
           </div>
 
-          {/* Action CTAs */}
-          <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0 font-mono text-xs">
+          {/* Card 2: VIEW IN BROWSER (Secondary Action) */}
+          <div className="p-8 rounded-[4px] bg-[#1A1F28] border border-[#2D3748] hover:border-[#1E90FF] hover:shadow-[0_8px_32px_rgba(30,144,255,0.08)] transition-all duration-200 flex flex-col justify-between group">
+            <div className="space-y-3 mb-8">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-bold text-[#F0F4F8] tracking-wide">
+                  VIEW IN BROWSER
+                </h3>
+                <div className="p-2 rounded bg-[#0D1117] border border-[#2D3748] text-[#1E90FF]">
+                  <Eye className="w-4 h-4" />
+                </div>
+              </div>
+
+              <p className="text-sm text-[#A8B8C8] leading-relaxed">
+                Interactive embedded view with direct printable formatting, complete work logs, and driver specifications.
+              </p>
+
+              <div className="text-xs font-mono text-[#6B7280]">
+                FORMAT: INTERACTIVE WEB CV • PRINT-READY
+              </div>
+            </div>
+
             <button
               onClick={onOpenResumeModal}
-              id="view-web-resume-btn"
-              className="px-5 py-3 rounded bg-[#C8FF00] text-[#0B0D0F] font-bold tracking-wider uppercase hover:bg-[#d5ff33] transition-colors flex items-center justify-center gap-2 focus:outline-none focus:ring-1 focus:ring-[#C8FF00]"
+              id="resume-view-btn"
+              className="w-full py-3 px-6 rounded bg-transparent border border-[#2D3748] hover:border-[#1E90FF] text-[#F0F4F8] hover:text-[#1E90FF] font-semibold text-xs uppercase tracking-wider transition-all duration-150 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#1E90FF]"
             >
               <Eye className="w-4 h-4" />
               <span>VIEW WEB RESUME</span>
             </button>
-
-            <a
-              href="/resume/Varun_Kumar_Resume.pdf"
-              download="Varun_Kumar_Resume.pdf"
-              onClick={handleDownloadClick}
-              id="download-resume-pdf-btn"
-              className="px-5 py-3 rounded bg-[#0B0D0F] border border-[#25292D] hover:border-[#C8FF00] text-[#E8EAED] hover:text-[#C8FF00] font-bold tracking-wider uppercase transition-colors flex items-center justify-center gap-2 focus:outline-none focus:ring-1 focus:ring-[#C8FF00]"
-            >
-              <Download className="w-4 h-4" />
-              <span>DOWNLOAD RESUME</span>
-            </a>
           </div>
         </div>
 
-        {/* Download Notice if file is in development environment */}
         {downloadNotice && (
-          <div className="mt-4 p-3 rounded bg-[#161A1F] border border-[#25292D] text-xs font-mono text-[#9AA0A6] flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-[#C8FF00]" />
-              <span>Requested PDF download at path <code className="text-[#E8EAED]">/resume/Varun_Kumar_Resume.pdf</code>. You can also view or print the complete Web Resume directly above.</span>
-            </div>
+          <div className="max-w-4xl mx-auto mt-6 p-4 rounded bg-[#1A1F28] border border-[#D4AF37]/50 text-xs font-mono text-[#A8B8C8] flex items-center gap-2.5 animate-fade-in-up">
+            <AlertCircle className="w-4 h-4 text-[#D4AF37] shrink-0" />
+            <span>
+              Resume PDF triggered. You can also view and print the interactive browser version instantly using the "VIEW IN BROWSER" button.
+            </span>
           </div>
         )}
       </div>

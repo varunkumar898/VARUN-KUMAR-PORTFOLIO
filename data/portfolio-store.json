@@ -1,0 +1,197 @@
+{
+  "profile": {
+    "firstName": "Varun",
+    "lastName": "Kumar",
+    "name": "VARUN KUMAR",
+    "title": "Embedded Systems Engineer | Firmware Developer",
+    "location": "Chennai, Tamil Nadu, India",
+    "phone": "+91 9444386570",
+    "email": "varunkumarjob2004@gmail.com",
+    "github": "https://github.com/varunkumarjob898",
+    "linkedin": "https://linkedin.com/in/varun-kumarjob8055",
+    "website": "https://varunkumar.dev",
+    "degree": "B.Tech in Electronics and Computer Engineering",
+    "university": "Vels University, Chennai, Tamil Nadu, India",
+    "cgpa": "7.5/10",
+    "bio": "I work at the boundary between firmware and hardware. My focus is low-level embedded development, from register-level peripheral configuration and board bring-up to RTOS scheduling, communication protocols and hardware debugging.",
+    "availability": "Available for full-time roles and technical discussions.",
+    "status": "OPEN_TO_WORK",
+    "lastUpdated": "2026-09-12T10:25:14.062Z"
+  },
+  "resume": {
+    "fileName": "Varun_Kumar_Firmware_CV.pdf",
+    "version": 1,
+    "fileSize": 2450000,
+    "fileUrl": "",
+    "uploadedAt": "2026-09-12T10:25:14.062Z",
+    "isActive": true,
+    "history": [
+      {
+        "version": 1,
+        "fileName": "Varun_Kumar_Firmware_CV.pdf",
+        "uploadedAt": "2026-09-12T10:25:14.062Z"
+      }
+    ]
+  },
+  "projects": [
+    {
+      "id": "stm32f030-drivers",
+      "title": "STM32F030 Hardware Abstraction Layer",
+      "subtitle": "Register-Level Device Drivers",
+      "category": "Device Drivers & Bare-Metal",
+      "description": "Designed and implemented 8 core peripheral device drivers entirely from scratch at register level, referencing ARM Cortex-M0 reference manuals (RM0360) without relying on STM32Cube HAL.",
+      "problem": "Standard vendor HAL abstractions introduce unnecessary runtime execution overhead and obscure hardware faults during bare-metal timing-sensitive embedded control loops.",
+      "approach": "Direct register-level bitfield manipulation with strict volatile pointer semantics, decoupled clock gating, and deterministic latency profiles.",
+      "implementation": "Engineered comprehensive drivers for GPIO, RCC, NVIC, EXTI, SYSCFG, ADC, SPI, and I2C peripherals with full register map definitions and clock-tree initializers.",
+      "debugging": "Isolated bus lockups and silicon quirks with an 8-channel logic analyzer and OpenOCD SWD hardware breakpoint instrumentation.",
+      "validation": "Executed hardware test suites across physical STM32F030F4P6 silicon boards verifying clock stability, GPIO transition times, and SPI transmission framing.",
+      "technologies": [
+        "ARM Cortex-M0",
+        "STM32F030",
+        "Bare-Metal C",
+        "OpenOCD",
+        "GDB",
+        "Logic Analyzer",
+        "Register-Level Drivers"
+      ],
+      "repositoryUrl": "https://github.com/varunkumarjob898/Driver-for-STM32F030x4-x6-x8-xC",
+      "featured": true,
+      "displayOrder": 1,
+      "githubMetadata": {
+        "stars": 12,
+        "forks": 3,
+        "commits": 17,
+        "language": "C",
+        "lastUpdated": "2026-09-12T10:25:14.062Z"
+      }
+    },
+    {
+      "id": "sensor-monitoring-freertos",
+      "title": "Real-Time Multi-Sensor Telemetry Node",
+      "subtitle": "FreeRTOS Deterministic Firmware",
+      "category": "RTOS & Industrial IoT",
+      "description": "Implemented deterministic multi-tasking telemetry firmware running FreeRTOS on ARM Cortex-M, gathering multi-sensor environmental parameters concurrently with zero task starvation.",
+      "problem": "Concurrent I2C/SPI sensor acquisition tasks and RF transmission routines caused bus contention, missed deadlines, and jitter without RTOS scheduling.",
+      "approach": "Priority-based preemptive scheduling with counting semaphores, mutexes with priority inheritance, and FreeRTOS queue message pipelines.",
+      "implementation": "Created discrete tasks for ADC telemetry, I2C temperature/humidity polling, UART telemetry streaming, and a dedicated watchdog kicker task.",
+      "debugging": "Used Segger SystemView and task trace hooks to measure context-switch overhead (<1.8µs) and detect stack watermark boundaries.",
+      "validation": "Stress-tested under 100% bus traffic over 72 uninterrupted continuous execution hours with zero RTOS stack overflows or watchdog timeouts.",
+      "technologies": [
+        "FreeRTOS",
+        "ARM Cortex-M",
+        "Embedded C",
+        "I2C",
+        "SPI",
+        "UART",
+        "SystemView",
+        "Low-Power Modes"
+      ],
+      "repositoryUrl": "https://github.com/varunkumarjob898/STM32-FreeRTOS-Telemetry-Engine",
+      "featured": true,
+      "displayOrder": 2,
+      "githubMetadata": {
+        "stars": 9,
+        "forks": 2,
+        "commits": 24,
+        "language": "C",
+        "lastUpdated": "2026-09-12T10:25:14.062Z"
+      }
+    },
+    {
+      "id": "riscv-can-modbus",
+      "title": "RISC-V Industrial CAN & Modbus Gateway",
+      "subtitle": "Automotive & Industrial Control",
+      "category": "Industrial Protocols & Fieldbus",
+      "description": "Authored low-level communication drivers and protocol translation gateway between industrial Modbus RTU/TCP and automotive CAN 2.0B fieldbus networks on RISC-V targets.",
+      "problem": "Battery Management Systems (BMS) in industrial equipment required deterministic bridging between fast CAN bus telemetry and slower legacy Modbus supervisory masters.",
+      "approach": "Ring-buffered dual-core message queues with hardware CAN filter masks and non-blocking state-machine packet serialization.",
+      "implementation": "Wrote CAN baudrate calculator (250kbps/500kbps), hardware filter acceptance lists, and CRC16 Modbus frame validators with error counter diagnostics.",
+      "debugging": "Captured bus frame collisions and edge-jitter with oscilloscopes and protocol analyzers, tuning bit timing segments (SYNC, PROP, PHASE1, PHASE2).",
+      "validation": "Bench-tested with 1000 message bursts at 80% CAN bus load with 0% dropped packets and validated checksum consistency.",
+      "technologies": [
+        "RISC-V",
+        "CAN 2.0B",
+        "Modbus RTU/TCP",
+        "Embedded C",
+        "Docker",
+        "Saleae Logic Analyzer",
+        "Oscilloscope"
+      ],
+      "repositoryUrl": "https://github.com/varunkumarjob898/RISCV-Industrial-CAN-Modbus-Bridge",
+      "featured": true,
+      "displayOrder": 3,
+      "githubMetadata": {
+        "stars": 15,
+        "forks": 4,
+        "commits": 31,
+        "language": "C",
+        "lastUpdated": "2026-09-12T10:25:14.062Z"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg-1789209693593",
+      "name": "Hiring Manager",
+      "email": "recruiter@embedded-tech.com",
+      "subject": "Firmware Engineer Opportunity",
+      "message": "We reviewed your STM32 projects and would like to connect.",
+      "status": "NEW",
+      "receivedAt": "2026-09-12T10:41:33.593Z",
+      "notes": ""
+    },
+    {
+      "id": "msg-1789209123224",
+      "name": "snksn",
+      "email": "varun3102004@gmail.com",
+      "subject": "ssjos",
+      "message": "sdffdc",
+      "status": "NEW",
+      "receivedAt": "2026-09-12T10:32:03.224Z",
+      "notes": ""
+    },
+    {
+      "id": "msg-sample-1",
+      "name": "Alex Rivera",
+      "email": "alex.rivera@embeddedtech.io",
+      "subject": "Senior Firmware Engineer Inquiry",
+      "message": "Hi Varun, reviewed your STM32 bare-metal drivers and register-level architecture diagrams. We have an opening on our hardware-firmware bringup team.",
+      "status": "NEW",
+      "receivedAt": "2026-09-12T05:25:14.062Z",
+      "notes": ""
+    }
+  ],
+  "githubRepos": [
+    {
+      "name": "Driver-for-STM32F030x4-x6-x8-xC",
+      "description": "Low-level bare-metal device drivers for STM32F030 microcontroller written in C without HAL abstractions.",
+      "url": "https://github.com/varunkumarjob898/Driver-for-STM32F030x4-x6-x8-xC",
+      "stars": 12,
+      "forks": 3,
+      "language": "C",
+      "commits": 17,
+      "lastUpdated": "2026-09-12T10:25:14.062Z"
+    },
+    {
+      "name": "STM32-FreeRTOS-Telemetry-Engine",
+      "description": "Real-time deterministic telemetry and sensor acquisition engine on ARM Cortex-M using FreeRTOS queues.",
+      "url": "https://github.com/varunkumarjob898",
+      "stars": 9,
+      "forks": 2,
+      "language": "C",
+      "commits": 24,
+      "lastUpdated": "2026-09-12T10:25:14.062Z"
+    },
+    {
+      "name": "RISCV-Industrial-CAN-Modbus-Bridge",
+      "description": "Automotive CAN 2.0B and industrial Modbus RTU protocol translation bridge for RISC-V edge controllers.",
+      "url": "https://github.com/varunkumarjob898",
+      "stars": 15,
+      "forks": 4,
+      "language": "C",
+      "commits": 31,
+      "lastUpdated": "2026-09-12T10:25:14.062Z"
+    }
+  ],
+  "lastGithubSync": "2026-09-12T10:25:14.062Z"
+}

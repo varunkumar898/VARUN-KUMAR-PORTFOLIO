@@ -6,7 +6,7 @@ export interface Profile {
   email: string;
   github: string;
   linkedin: string;
-  expectedGraduation: string;
+  expectedGraduation?: string;
   degree: string;
   university: string;
   cgpa: string;
@@ -99,6 +99,11 @@ export interface PeripheralNode {
   bus: 'AHB' | 'APB1' | 'APB2';
   baseAddress: string;
   pins: string;
+  pinMapping?: string;
+  clockSpeed?: string;
+  registerConfig?: string;
+  dmaChannel?: string;
+  irqNumber?: string;
   description: string;
   waveformType: 'uart' | 'spi' | 'i2c' | 'adc' | 'pwm' | 'gpio' | 'can' | 'dma';
 }

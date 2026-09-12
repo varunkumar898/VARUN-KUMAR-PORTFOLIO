@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { PortfolioProvider } from './context/PortfolioContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
@@ -14,12 +15,13 @@ import { ResumeSection } from './components/ResumeSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { WebResumeModal } from './components/WebResumeModal';
+import { AdminModal } from './components/AdminModal';
 
-export default function App() {
+function PortfolioApp() {
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#0B0D0F] text-[#E8EAED] selection:bg-[#C8FF00] selection:text-[#0B0D0F]">
+    <div className="min-h-screen bg-[#0D1117] text-[#F0F4F8] selection:bg-[#D4AF37] selection:text-[#0D1117]">
       {/* Fixed Sticky Header Navigation */}
       <Navbar onOpenResumeModal={() => setIsResumeModalOpen(true)} />
 
@@ -69,6 +71,17 @@ export default function App() {
       {isResumeModalOpen && (
         <WebResumeModal onClose={() => setIsResumeModalOpen(false)} />
       )}
+
+      {/* Full-Stack CMS Admin Modal */}
+      <AdminModal />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <PortfolioProvider>
+      <PortfolioApp />
+    </PortfolioProvider>
   );
 }

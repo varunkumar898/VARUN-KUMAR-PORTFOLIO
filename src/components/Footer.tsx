@@ -1,67 +1,71 @@
 import React from 'react';
-import { PROFILE } from '../data/portfolioData';
-import { Github, Linkedin, Mail, Cpu } from 'lucide-react';
+import { Lock } from 'lucide-react';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export const Footer: React.FC = () => {
+  const { profile, openAdmin } = usePortfolio();
+
+  const handleScrollToTop = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer className="py-12 bg-[#0B0D0F] border-t border-[#25292D] text-[#9AA0A6] font-mono text-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-[#25292D]">
-          {/* Brand Info */}
-          <div>
-            <div className="text-sm font-bold text-[#E8EAED] tracking-wider flex items-center gap-2">
-              <span>{PROFILE.name}</span>
-              <span className="text-[10px] text-[#C8FF00] px-1 py-0.2 bg-[#C8FF00]/10 border border-[#C8FF00]/30 rounded">
-                EMBEDDED
-              </span>
-            </div>
-            <div className="text-[11px] text-[#9AA0A6] mt-0.5">
-              Embedded Systems Engineer • Firmware Developer
-            </div>
-            <div className="text-[11px] text-[#9AA0A6] mt-0.5">
-              Chennai, Tamil Nadu, India
-            </div>
+    <footer className="py-8 bg-[#0D1117] border-t border-[#2D3748] text-[13px]">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          {/* Left: Varun Kumar © 2025 (13px, secondary text) */}
+          <div className="text-[#A8B8C8] font-mono flex items-center gap-2">
+            <span>Varun Kumar © 2025</span>
+            <button
+              onClick={openAdmin}
+              className="text-[11px] font-mono text-[#6B7280] hover:text-[#D4AF37] px-1.5 py-0.5 rounded border border-[#2D3748] hover:border-[#D4AF37]/50 flex items-center gap-1 transition-colors cursor-pointer"
+              title="Access Admin CMS"
+            >
+              <Lock className="w-3 h-3 text-[#D4AF37]" />
+              <span>Admin</span>
+            </button>
           </div>
 
-          {/* Social Links */}
-          <div className="flex items-center gap-4">
+          {/* Center: Built with precision. Designed for engineers. (13px, muted) */}
+          <div className="text-[#6B7280] text-center font-mono text-xs">
+            Built with precision. Register-level engineering portfolio.
+          </div>
+
+          {/* Right: Links to Top ↑ | GitHub | LinkedIn | Email (13px, muted) */}
+          <div className="flex items-center gap-3 text-[#6B7280] font-mono text-xs">
             <a
-              href={PROFILE.github}
+              href="#top"
+              onClick={handleScrollToTop}
+              className="hover:text-[#1E90FF] transition-colors"
+            >
+              Top ↑
+            </a>
+            <span>|</span>
+            <a
+              href={profile.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#9AA0A6] hover:text-[#C8FF00] transition-colors flex items-center gap-1.5"
+              className="hover:text-[#1E90FF] transition-colors"
             >
-              <Github className="w-4 h-4" />
-              <span>GitHub</span>
+              GitHub
             </a>
-
+            <span>|</span>
             <a
-              href={PROFILE.linkedin}
+              href={profile.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#9AA0A6] hover:text-[#C8FF00] transition-colors flex items-center gap-1.5"
+              className="hover:text-[#1E90FF] transition-colors"
             >
-              <Linkedin className="w-4 h-4" />
-              <span>LinkedIn</span>
+              LinkedIn
             </a>
-
+            <span>|</span>
             <a
-              href={`mailto:${PROFILE.email}`}
-              className="text-[#9AA0A6] hover:text-[#C8FF00] transition-colors flex items-center gap-1.5"
+              href={`mailto:${profile.email}`}
+              className="hover:text-[#1E90FF] transition-colors"
             >
-              <Mail className="w-4 h-4" />
-              <span>Email</span>
+              Email
             </a>
-          </div>
-        </div>
-
-        {/* Precision quote & Copyright */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px]">
-          <div className="text-[#E8EAED]">
-            "Built with precision. Debugged on real hardware."
-          </div>
-          <div className="text-[#9AA0A6]">
-            © {new Date().getFullYear()} {PROFILE.name} • STM32 & RISC-V Firmware
           </div>
         </div>
       </div>

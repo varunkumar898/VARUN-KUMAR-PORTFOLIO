@@ -68,15 +68,15 @@ export const TerminalWorkflow: React.FC = () => {
   };
 
   return (
-    <section className="py-16 bg-[#111417] border-b border-[#25292D] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 bg-[#1A1F28] border-b border-[#2D3748] relative">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 font-mono text-xs">
-          <div className="flex items-center gap-2 text-[#E8EAED]">
-            <Terminal className="w-4 h-4 text-[#C8FF00]" />
-            <span className="font-bold tracking-wider uppercase">// HARDWARE BUILD & DEBUGGING CONSOLE</span>
+          <div className="flex items-center gap-2 text-[#F0F4F8]">
+            <Terminal className="w-4 h-4 text-[#D4AF37]" />
+            <span className="font-bold tracking-wider uppercase">BUILD & DEBUGGING WORKFLOW CONSOLE</span>
           </div>
-          <div className="text-[#9AA0A6] text-[11px]">
-            Illustrative developer toolchain sessions (GCC • OpenOCD • GDB)
+          <div className="text-[#A8B8C8] text-[11px]">
+            Embedded toolchain execution sessions (GCC • OpenOCD • GDB)
           </div>
         </div>
 
@@ -86,10 +86,10 @@ export const TerminalWorkflow: React.FC = () => {
             <button
               key={idx}
               onClick={() => setSelectedCmdIdx(idx)}
-              className={`px-3 py-1.5 rounded border transition-colors ${
+              className={`px-3.5 py-1.5 rounded border transition-colors ${
                 selectedCmdIdx === idx
-                  ? 'bg-[#C8FF00] text-[#0B0D0F] border-[#C8FF00] font-bold'
-                  : 'bg-[#0B0D0F] text-[#9AA0A6] border-[#25292D] hover:text-[#E8EAED]'
+                  ? 'bg-[#0D1117] text-[#D4AF37] border-[#D4AF37] font-bold'
+                  : 'bg-[#0D1117]/60 text-[#A8B8C8] border-[#2D3748] hover:border-[#1E90FF] hover:text-[#F0F4F8]'
               }`}
             >
               $ {c.cmd.split(' ')[0]}
@@ -98,53 +98,58 @@ export const TerminalWorkflow: React.FC = () => {
         </div>
 
         {/* Terminal Window */}
-        <div className="rounded border border-[#25292D] bg-[#070809] overflow-hidden shadow-2xl font-mono text-xs">
-          {/* Terminal Titlebar */}
-          <div className="p-3 bg-[#111417] border-b border-[#25292D] flex items-center justify-between">
+        <div className="rounded-[4px] bg-[#0D1117] border border-[#2D3748] overflow-hidden shadow-2xl font-mono text-xs">
+          {/* Title Bar */}
+          <div className="p-3 bg-[#080B0E] border-b border-[#2D3748] flex items-center justify-between text-[#A8B8C8]">
             <div className="flex items-center gap-2">
-              <div className="flex gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#E06C75]/60"></span>
-                <span className="w-2.5 h-2.5 rounded-full bg-[#E5C07B]/60"></span>
-                <span className="w-2.5 h-2.5 rounded-full bg-[#98C379]/60"></span>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2D3748]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2D3748]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2D3748]" />
               </div>
-              <span className="text-[11px] text-[#9AA0A6] ml-2">
-                arm-embedded-toolchain: ~/{activeCommand.desc}
+              <span className="text-[11px] text-[#A8B8C8] ml-2">
+                arm-embedded-toolchain — bash
               </span>
             </div>
 
-            <button
-              onClick={handleCopy}
-              className="px-2 py-1 rounded bg-[#161A1F] border border-[#25292D] text-[#9AA0A6] hover:text-[#C8FF00] flex items-center gap-1.5 text-[10px]"
-            >
-              {copied ? <Check className="w-3 h-3 text-[#C8FF00]" /> : <Copy className="w-3 h-3" />}
-              <span>{copied ? 'COPIED' : 'COPY LOG'}</span>
-            </button>
+            <div className="flex items-center gap-3">
+              <span className="text-[11px] text-[#00D9FF] hidden sm:inline">
+                {activeCommand.desc}
+              </span>
+              <button
+                onClick={handleCopy}
+                className="px-2 py-0.5 rounded border border-[#2D3748] bg-[#1A1F28] hover:border-[#1E90FF] text-[#A8B8C8] hover:text-[#1E90FF] flex items-center gap-1 text-[10px] transition-colors"
+                title="Copy terminal session"
+              >
+                {copied ? <Check className="w-3 h-3 text-[#10B981]" /> : <Copy className="w-3 h-3" />}
+                <span>{copied ? 'COPIED' : 'COPY'}</span>
+              </button>
+            </div>
           </div>
 
           {/* Terminal Body */}
-          <div className="p-4 sm:p-5 space-y-2 text-[#E8EAED] leading-relaxed overflow-x-auto max-h-[300px]">
-            <div className="text-[#C8FF00] font-bold flex items-center gap-2">
-              <span className="text-[#9AA0A6] select-none">embedded-host:~$</span>
-              <span>{activeCommand.cmd}</span>
+          <div className="p-5 space-y-2 overflow-x-auto text-[#A8B8C8] leading-relaxed">
+            <div className="flex items-center gap-2 text-[#00D9FF]">
+              <span className="text-[#D4AF37] font-bold">$</span>
+              <span className="font-semibold">{activeCommand.cmd}</span>
             </div>
-
-            <div className="pt-1 space-y-1 text-[#9AA0A6] text-[11px] sm:text-xs">
+            <div className="space-y-1 text-[#F0F4F8]/80 text-[11px] sm:text-xs">
               {activeCommand.output.map((line, lIdx) => (
-                <div key={lIdx} className="whitespace-pre">
-                  {line.includes('BUILD SUCCESSFUL') || line.includes('Breakpoint') || line.includes('target halted') ? (
-                    <span className="text-[#C8FF00] font-semibold">{line}</span>
-                  ) : line.includes('Info') ? (
-                    <span className="text-[#61AFEF]">{line}</span>
-                  ) : (
-                    <span>{line}</span>
-                  )}
+                <div
+                  key={lIdx}
+                  className={
+                    line.includes('SUCCESSFUL')
+                      ? 'text-[#10B981] font-bold'
+                      : line.includes('error') || line.includes('fault')
+                      ? 'text-[#EF4444]'
+                      : line.includes('Breakpoint') || line.includes('Listening')
+                      ? 'text-[#00D9FF]'
+                      : 'text-[#A8B8C8]'
+                  }
+                >
+                  {line}
                 </div>
               ))}
-            </div>
-
-            <div className="pt-2 flex items-center gap-2 text-[#C8FF00]">
-              <span className="text-[#9AA0A6] select-none">embedded-host:~$</span>
-              <span className="w-2 h-4 bg-[#C8FF00] animate-pulse inline-block"></span>
             </div>
           </div>
         </div>
