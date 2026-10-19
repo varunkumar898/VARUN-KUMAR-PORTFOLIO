@@ -17,14 +17,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      // Scroll Progress Indicator calculation
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (totalHeight > 0) {
         const progress = (window.scrollY / totalHeight) * 100;
         setScrollProgress(Math.min(100, Math.max(0, progress)));
       }
 
-      const sections = ['hero', 'about', 'experience', 'projects', 'engineering-lab', 'skills', 'education', 'resume', 'contact'];
+      const sections = ['hero', 'about', 'projects', 'engineering-practice', 'experience', 'skills', 'education', 'resume', 'contact'];
       const scrollPosition = window.scrollY + 140;
 
       for (const section of sections) {
@@ -45,11 +44,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
   }, []);
 
   const navLinks = [
-    { label: 'Home', href: '#hero', id: 'hero' },
+    { label: 'Overview', href: '#hero', id: 'hero' },
     { label: 'About', href: '#about', id: 'about' },
-    { label: 'Experience', href: '#experience', id: 'experience' },
     { label: 'Projects', href: '#projects', id: 'projects' },
-    { label: 'Engineering', href: '#engineering-lab', id: 'engineering-lab' },
+    { label: 'Engineering Practice', href: '#engineering-practice', id: 'engineering-practice' },
+    { label: 'Experience', href: '#experience', id: 'experience' },
     { label: 'Skills', href: '#skills', id: 'skills' },
     { label: 'Resume', href: '#resume', id: 'resume' },
     { label: 'Contact', href: '#contact', id: 'contact' },
@@ -66,43 +65,43 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
 
   return (
     <>
-      {/* Scroll Progress Indicator (2px Gold Bar) */}
+      {/* Scroll Progress Bar */}
       <div
-        className="fixed top-0 left-0 h-[2px] bg-[#D4AF37] z-[60] transition-all duration-75 ease-out"
+        className="fixed top-0 left-0 h-[2px] bg-[#D4A03D] z-[70] transition-all duration-75 ease-out"
         style={{ width: `${scrollProgress}%` }}
         role="progressbar"
         aria-valuenow={Math.round(scrollProgress)}
         aria-valuemin={0}
         aria-valuemax={100}
-        aria-label="Reading progress"
+        aria-label="Page reading progress"
       />
 
       <header
         id="main-navigation"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
           isScrolled
-            ? 'bg-[#0D1117]/90 backdrop-blur-md border-b border-[#2D3748] shadow-lg shadow-black/30'
-            : 'bg-[#0D1117]/70 backdrop-blur-sm border-b border-[#2D3748]/60'
+            ? 'bg-[#0B0E14]/92 backdrop-blur-md border-b border-[#232B38] shadow-sm'
+            : 'bg-[#0B0E14]/80 backdrop-blur-sm border-b border-[#232B38]/60'
         }`}
       >
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
-          <div className="flex items-center justify-between h-18">
-            {/* Left: VARUN KUMAR (logo/name) - clickable, goes to home */}
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 sm:h-18">
+            {/* Left: Brand Identity */}
             <a
               href="#hero"
               onClick={(e) => handleNavClick(e, '#hero')}
               id="brand-logo"
-              className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#1E90FF] rounded py-1 px-1.5"
+              className="flex items-center gap-3 group focus:outline-none focus:ring-1 focus:ring-[#D4A03D] rounded py-1"
             >
-              <div className="w-8 h-8 rounded bg-[#1A1F28] border border-[#2D3748] flex items-center justify-center text-[#D4AF37] font-semibold text-xs group-hover:border-[#1E90FF] group-hover:text-[#1E90FF] transition-colors">
+              <div className="w-8 h-8 rounded bg-[#181E29] border border-[#232B38] flex items-center justify-center text-[#D4A03D] font-mono font-semibold text-xs group-hover:border-[#D4A03D] transition-colors">
                 VK
               </div>
-              <div>
-                <span className="font-bold text-[#F0F4F8] text-base tracking-tight group-hover:text-[#1E90FF] transition-colors">
-                  VARUN <span className="text-[#D4AF37]">KUMAR</span>
+              <div className="flex flex-col">
+                <span className="font-semibold text-[#ECEFF4] text-sm tracking-tight group-hover:text-[#D4A03D] transition-colors">
+                  VARUN KUMAR
                 </span>
-                <span className="block text-[11px] text-[#A8B8C8] font-mono leading-none mt-0.5">
-                  Embedded & Firmware
+                <span className="text-[11px] text-[#657386] font-mono leading-none mt-0.5">
+                  Firmware & Embedded Systems
                 </span>
               </div>
             </a>
@@ -117,43 +116,30 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
                     id={`nav-link-${link.id}`}
-                    className={`relative px-3.5 py-2 text-sm font-medium transition-colors duration-150 ${
+                    className={`relative px-3 py-1.5 text-xs font-medium tracking-wide transition-colors duration-150 ${
                       isActive
-                        ? 'text-[#F0F4F8]'
-                        : 'text-[#A8B8C8] hover:text-[#1E90FF]'
+                        ? 'text-[#ECEFF4] font-semibold'
+                        : 'text-[#9AA7B8] hover:text-[#ECEFF4]'
                     }`}
                   >
                     <span>{link.label}</span>
-                    {/* Active section shows #D4AF37 underline (2px, bottom border) */}
                     {isActive && (
-                      <span className="absolute bottom-0 left-3.5 right-3.5 h-[2px] bg-[#D4AF37] rounded-full transition-all duration-200" />
+                      <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#D4A03D] rounded-full" />
                     )}
                   </a>
                 );
               })}
             </nav>
 
-            {/* Right: Status Indicator + Admin CMS + GitHub Icon */}
+            {/* Right: Actions */}
             <div className="hidden sm:flex items-center gap-3">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded bg-[#1A1F28] border border-[#2D3748] text-xs font-mono text-[#F0F4F8]">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]"></span>
-                </span>
-                <span className="text-[#10B981] text-[11px] font-medium tracking-wide uppercase">
-                  {profile.status || 'AVAILABLE FOR OPPORTUNITIES'}
-                </span>
-              </div>
-
-              {/* Admin Portal Trigger */}
               <button
-                onClick={openAdmin}
-                id="nav-admin-btn"
-                className="px-2.5 py-1.5 rounded bg-[#1A1F28] border border-[#D4AF37]/40 hover:border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10 text-xs font-mono font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
-                title="Open CMS Admin Portal"
+                onClick={onOpenResumeModal}
+                id="nav-resume-btn"
+                className="px-3 py-1.5 rounded bg-[#181E29] hover:bg-[#232B38] border border-[#232B38] hover:border-[#D4A03D]/60 text-[#ECEFF4] text-xs font-mono font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
               >
-                <Lock className="w-3.5 h-3.5" />
-                <span className="hidden xl:inline">ADMIN</span>
+                <FileText className="w-3.5 h-3.5 text-[#D4A03D]" />
+                <span>Resume (PDF)</span>
               </button>
 
               <a
@@ -161,28 +147,30 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 id="nav-github-link"
-                className="p-2 rounded bg-[#1A1F28] border border-[#2D3748] text-[#A8B8C8] hover:text-[#1E90FF] hover:border-[#1E90FF] transition-colors focus:outline-none focus:ring-2 focus:ring-[#1E90FF]"
-                aria-label="Varun Kumar's GitHub profile"
+                className="p-1.5 rounded bg-[#181E29] border border-[#232B38] text-[#9AA7B8] hover:text-[#ECEFF4] hover:border-[#D4A03D]/60 transition-colors"
+                aria-label="GitHub profile"
               >
                 <Github className="w-4 h-4" />
               </a>
+
+              <button
+                onClick={openAdmin}
+                id="nav-admin-btn"
+                className="p-1.5 rounded bg-[#181E29] border border-[#232B38] text-[#657386] hover:text-[#D4A03D] hover:border-[#D4A03D]/50 transition-colors cursor-pointer"
+                title="CMS Management"
+                aria-label="Admin Portal"
+              >
+                <Lock className="w-3.5 h-3.5" />
+              </button>
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="flex lg:hidden items-center gap-3">
-              <div className="flex sm:hidden items-center">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]"></span>
-                </span>
-              </div>
-
+            <div className="flex lg:hidden items-center gap-2">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 id="mobile-menu-toggle"
-                className="p-2 rounded bg-[#1A1F28] border border-[#2D3748] text-[#F0F4F8] hover:text-[#1E90FF] hover:border-[#1E90FF] focus:outline-none focus:ring-2 focus:ring-[#1E90FF]"
+                className="p-2 rounded bg-[#181E29] border border-[#232B38] text-[#ECEFF4] hover:text-[#D4A03D] focus:outline-none"
                 aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Menu'}
-                aria-expanded={mobileMenuOpen}
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -190,17 +178,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
           </div>
         </div>
 
-        {/* Mobile Drawer Menu */}
+        {/* Mobile Menu Drawer */}
         {mobileMenuOpen && (
           <div
             id="mobile-menu-drawer"
-            className="lg:hidden bg-[#1A1F28] border-b border-[#2D3748] px-4 py-4 space-y-2 shadow-xl"
+            className="lg:hidden bg-[#12161F] border-b border-[#232B38] px-4 py-4 space-y-2 shadow-2xl"
           >
-            <div className="p-2.5 rounded bg-[#0D1117] border border-[#2D3748] text-xs font-mono text-[#10B981] flex items-center gap-2 mb-3">
-              <span className="h-2 w-2 rounded-full bg-[#10B981]"></span>
-              <span>AVAILABLE FOR OPPORTUNITIES</span>
-            </div>
-
             <div className="grid grid-cols-2 gap-2">
               {navLinks.map((link) => (
                 <a
@@ -209,8 +192,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
                   onClick={(e) => handleNavClick(e, link.href)}
                   className={`px-3 py-2 rounded text-xs font-medium tracking-wide transition-colors flex items-center justify-between ${
                     activeSection === link.id
-                      ? 'bg-[#D4AF37] text-[#0D1117] font-bold'
-                      : 'bg-[#0D1117] text-[#A8B8C8] hover:text-[#1E90FF]'
+                      ? 'bg-[#D4A03D] text-[#0B0E14] font-bold'
+                      : 'bg-[#181E29] text-[#9AA7B8] hover:text-[#ECEFF4]'
                   }`}
                 >
                   <span>{link.label}</span>
@@ -219,38 +202,39 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
               ))}
             </div>
 
-            <div className="pt-3 border-t border-[#2D3748] flex flex-col sm:flex-row gap-2">
+            <div className="pt-3 border-t border-[#232B38] flex flex-col gap-2">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenResumeModal();
+                }}
+                className="w-full py-2.5 rounded bg-[#D4A03D] text-[#0B0E14] font-semibold text-xs tracking-wider flex items-center justify-center gap-2"
+              >
+                <FileText className="w-4 h-4" />
+                <span>VIEW / DOWNLOAD RESUME</span>
+              </button>
+
               <div className="flex gap-2">
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenResumeModal();
-                  }}
-                  className="flex-1 py-2.5 rounded bg-[#D4AF37] text-[#0D1117] font-semibold text-xs tracking-wider flex items-center justify-center gap-1.5 hover:bg-[#e0bc46] transition-colors"
-                >
-                  <FileText className="w-4 h-4" />
-                  <span>VIEW WEB RESUME</span>
-                </button>
                 <a
                   href={profile.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="py-2.5 px-4 rounded bg-[#0D1117] border border-[#2D3748] text-[#F0F4F8] hover:text-[#1E90FF] hover:border-[#1E90FF] text-xs flex items-center justify-center gap-1.5 transition-colors"
+                  className="flex-1 py-2 px-3 rounded bg-[#181E29] border border-[#232B38] text-[#ECEFF4] text-xs flex items-center justify-center gap-2"
                 >
                   <Github className="w-4 h-4" />
-                  <span>GITHUB</span>
+                  <span>github.com/varunkumar898</span>
                 </a>
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openAdmin();
+                  }}
+                  className="p-2 rounded bg-[#181E29] border border-[#232B38] text-[#9AA7B8] text-xs flex items-center justify-center"
+                  title="Admin console"
+                >
+                  <Lock className="w-4 h-4" />
+                </button>
               </div>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  openAdmin();
-                }}
-                className="w-full py-2 rounded bg-[#1A1F28] border border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37]/10 text-xs font-mono flex items-center justify-center gap-2"
-              >
-                <Lock className="w-3.5 h-3.5" />
-                <span>ADMIN CONSOLE</span>
-              </button>
             </div>
           </div>
         )}

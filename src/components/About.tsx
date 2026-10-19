@@ -1,78 +1,87 @@
 import React from 'react';
-import { ArrowRightLeft } from 'lucide-react';
+import { Cpu, Terminal, Activity, ArrowRight } from 'lucide-react';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export const About: React.FC = () => {
-  const stats = [
-    { top: 'B.Tech', bottom: 'ECE Degree' },
-    { top: 'STM32', bottom: 'ARM Cortex-M' },
-    { top: 'RISC-V', bottom: 'Architecture' },
-    { top: 'FreeRTOS', bottom: 'Real-Time Sys' },
-  ];
+  const { profile } = usePortfolio();
 
   return (
     <section
       id="about"
-      className="py-20 bg-[#0D1117] border-b border-[#2D3748] relative"
+      className="py-18 bg-[#12161F] border-b border-[#232B38] relative"
     >
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
-        {/* Centered Heading */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="text-[32px] leading-[40px] font-bold text-[#F0F4F8] tracking-tight">
-            ABOUT
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Heading */}
+        <div className="mb-12">
+          <div className="text-xs font-mono text-[#D4A03D] uppercase tracking-wider mb-2">
+            01 // BACKGROUND & FOCUS
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-bold text-[#ECEFF4] tracking-tight">
+            Understanding software at the hardware boundary.
           </h2>
-          {/* 1px #2D3748 separator line with 40px width */}
-          <div className="w-10 h-[1px] bg-[#2D3748] mx-auto my-3" />
-          <p className="text-2xl font-semibold text-[#D4AF37] mt-2">
-            Firmware meets hardware.
-          </p>
         </div>
 
-        {/* Centered Body Text: 16px line-height 28px */}
-        <div className="max-w-3xl mx-auto text-center mb-14">
-          <p className="text-base leading-[28px] text-[#A8B8C8]">
-            "I work at the boundary between firmware and hardware. My focus is low-level embedded development, 
-            from register-level peripheral configuration and board bring-up to RTOS scheduling, communication 
-            protocols and hardware debugging. I enjoy working close to the silicon—reading datasheets, 
-            understanding timing behavior, debugging peripherals and validating firmware on real hardware."
-          </p>
-        </div>
+        {/* Editorial Narrative & Engineering Bridge */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+          {/* Narrative text (7 cols) */}
+          <div className="lg:col-span-7 space-y-5 text-sm sm:text-base text-[#9AA7B8] leading-relaxed">
+            <p>
+              I am an embedded software and firmware engineer completing my <span className="text-[#ECEFF4] font-medium">B.Tech in Electronics and Computer Engineering</span> at Vels University, Chennai. My interest lies in what happens between the compiler output and physical copper traces on a circuit board.
+            </p>
+            <p>
+              Rather than treating microcontrollers as black boxes wrapped in thousands of lines of vendor HAL code, I prefer reading datasheet register maps, timing diagrams, and electrical characteristics. Writing bare-metal peripheral drivers for the <span className="text-[#ECEFF4] font-mono text-xs sm:text-sm">STM32F030</span> directly from reference manual RM0360 gave me deep intuition for clock distribution trees, memory-mapped I/O, and atomic register modification.
+            </p>
+            <p>
+              In real-time systems, I use <span className="text-[#ECEFF4] font-medium">FreeRTOS</span> to partition concurrent responsibilities—such as sensor telemetry polling, RFID protocol decoding, and actuator safety interlocks—into deterministic tasks connected by thread-safe queues and semaphores. I test and validate firmware using real instruments: in-circuit debugging with OpenOCD and GDB over SWD, and signal inspection using logic analyzers and oscilloscopes.
+            </p>
+          </div>
 
-        {/* Hardware <-> Firmware Boundary Bridge */}
-        <div className="max-w-3xl mx-auto mb-14 p-4 rounded bg-[#1A1F28] border border-[#2D3748] font-mono text-xs">
-          <div className="grid grid-cols-11 items-center gap-2 text-center">
-            <div className="col-span-5 p-3 rounded bg-[#0D1117] border border-[#2D3748]">
-              <div className="text-[10px] text-[#6B7280] uppercase tracking-wider">PHYSICAL DOMAIN</div>
-              <div className="text-sm font-bold text-[#F0F4F8] mt-0.5">HARDWARE</div>
-              <div className="text-[11px] text-[#A8B8C8] mt-0.5">Pins • Clocks • 3.3V Buses</div>
+          {/* Practical Engineering Layers (5 cols) */}
+          <div className="lg:col-span-5 rounded border border-[#232B38] bg-[#0B0E14] p-5 space-y-4 font-mono text-xs">
+            <div className="text-xs text-[#D4A03D] font-bold uppercase tracking-wide border-b border-[#232B38] pb-2">
+              HOW FIRMWARE MEETS SILICON
             </div>
 
-            <div className="col-span-1 flex justify-center text-[#1E90FF]">
-              <ArrowRightLeft className="w-4 h-4" />
-            </div>
+            <div className="space-y-3">
+              <div className="p-3 rounded bg-[#181E29] border border-[#232B38]">
+                <div className="flex items-center justify-between text-[#ECEFF4] font-semibold text-xs mb-1">
+                  <span>01. Physical Hardware</span>
+                  <span className="text-[#657386] text-[10px]">SILICON & PINS</span>
+                </div>
+                <p className="text-[11px] text-[#9AA7B8] leading-normal font-sans">
+                  STM32 & ESP32 silicon packages, 3.3V logic levels, pull-up/pull-down networks, and PCB signal traces.
+                </p>
+              </div>
 
-            <div className="col-span-5 p-3 rounded bg-[#0D1117] border border-[#2D3748]">
-              <div className="text-[10px] text-[#6B7280] uppercase tracking-wider">EXECUTION DOMAIN</div>
-              <div className="text-sm font-bold text-[#00D9FF] mt-0.5">FIRMWARE</div>
-              <div className="text-[11px] text-[#A8B8C8] mt-0.5">Registers • ISRs • FreeRTOS</div>
+              <div className="flex justify-center text-[#D4A03D]">
+                <ArrowRight className="w-4 h-4 rotate-90" />
+              </div>
+
+              <div className="p-3 rounded bg-[#181E29] border border-[#232B38]">
+                <div className="flex items-center justify-between text-[#ECEFF4] font-semibold text-xs mb-1">
+                  <span>02. Peripheral Registers</span>
+                  <span className="text-[#657386] text-[10px]">MMIO BITFIELDS</span>
+                </div>
+                <p className="text-[11px] text-[#9AA7B8] leading-normal font-sans">
+                  Memory-mapped peripheral registers, clock gating (RCC), atomic bit setting (BSRR), and vector table routing (NVIC/EXTI).
+                </p>
+              </div>
+
+              <div className="flex justify-center text-[#D4A03D]">
+                <ArrowRight className="w-4 h-4 rotate-90" />
+              </div>
+
+              <div className="p-3 rounded bg-[#181E29] border border-[#232B38]">
+                <div className="flex items-center justify-between text-[#ECEFF4] font-semibold text-xs mb-1">
+                  <span>03. Firmware & RTOS</span>
+                  <span className="text-[#657386] text-[10px]">C/C++ & SCHEDULING</span>
+                </div>
+                <p className="text-[11px] text-[#9AA7B8] leading-normal font-sans">
+                  Deterministic task priorities, non-blocking ISR queue dispatch, mutex protection, and hardware-in-the-loop validation.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Stats Grid: 4 columns on desktop, 2 on tablet, 1 on mobile */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
-          {stats.map((item, idx) => (
-            <div
-              key={idx}
-              className="p-6 rounded bg-[#1A1F28] border border-[#2D3748] hover:border-[#1E90FF] transition-colors duration-150 text-center flex flex-col justify-center"
-            >
-              <div className="font-mono text-sm uppercase text-[#D4AF37] font-semibold tracking-wider">
-                {item.top}
-              </div>
-              <div className="text-base text-[#F0F4F8] font-medium mt-1">
-                {item.bottom}
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </section>

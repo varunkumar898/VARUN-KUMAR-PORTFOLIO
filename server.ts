@@ -29,32 +29,32 @@ const defaultStore = {
     firstName: "Varun",
     lastName: "Kumar",
     name: "VARUN KUMAR",
-    title: "Embedded Systems Engineer | Firmware Developer",
+    title: "Embedded Systems Engineer | C/C++ Firmware | RTOS | Driver Development",
     location: "Chennai, Tamil Nadu, India",
     phone: "+91 9444386570",
     email: "varunkumarjob2004@gmail.com",
-    github: "https://github.com/varunkumarjob898",
-    linkedin: "https://linkedin.com/in/varun-kumarjob8055",
+    github: "https://github.com/varunkumar898",
+    linkedin: "https://linkedin.com/in/varunkumarjob8055",
     website: "https://varunkumar.dev",
     degree: "B.Tech in Electronics and Computer Engineering",
     university: "Vels University, Chennai, Tamil Nadu, India",
     cgpa: "7.5/10",
-    bio: "I work at the boundary between firmware and hardware. My focus is low-level embedded development, from register-level peripheral configuration and board bring-up to RTOS scheduling, communication protocols and hardware debugging.",
-    availability: "Available for full-time roles and technical discussions.",
+    bio: "Embedded engineer writing C/C++ firmware and device drivers for ARM Cortex-M microcontrollers (STM32, ESP32). Experienced in FreeRTOS task design, interrupt handling (NVIC, EXTI), register-level drivers, and hardware-firmware debugging with JTAG/SWD, OpenOCD, GDB, and logic analyzers. Has built containerized CI/CD pipelines for firmware validation.",
+    availability: "Available for full-time embedded engineering roles and technical discussions.",
     status: "OPEN_TO_WORK",
     lastUpdated: new Date().toISOString()
   },
   resume: {
-    fileName: "Varun_Kumar_Firmware_CV.pdf",
+    fileName: "Varun_Kumar_Resume.pdf",
     version: 1,
-    fileSize: 2450000,
-    fileUrl: "",
+    fileSize: 497939,
+    fileUrl: "/resume/Varun_Kumar_Resume.pdf",
     uploadedAt: new Date().toISOString(),
     isActive: true,
     history: [
       {
         version: 1,
-        fileName: "Varun_Kumar_Firmware_CV.pdf",
+        fileName: "Varun_Kumar_Resume.pdf",
         uploadedAt: new Date().toISOString()
       }
     ]
@@ -62,17 +62,17 @@ const defaultStore = {
   projects: [
     {
       id: "stm32f030-drivers",
-      title: "STM32F030 Hardware Abstraction Layer",
-      subtitle: "Register-Level Device Drivers",
-      category: "Device Drivers & Bare-Metal",
-      description: "Designed and implemented 8 core peripheral device drivers entirely from scratch at register level, referencing ARM Cortex-M0 reference manuals (RM0360) without relying on STM32Cube HAL.",
-      problem: "Standard vendor HAL abstractions introduce unnecessary runtime execution overhead and obscure hardware faults during bare-metal timing-sensitive embedded control loops.",
-      approach: "Direct register-level bitfield manipulation with strict volatile pointer semantics, decoupled clock gating, and deterministic latency profiles.",
-      implementation: "Engineered comprehensive drivers for GPIO, RCC, NVIC, EXTI, SYSCFG, ADC, SPI, and I2C peripherals with full register map definitions and clock-tree initializers.",
-      debugging: "Isolated bus lockups and silicon quirks with an 8-channel logic analyzer and OpenOCD SWD hardware breakpoint instrumentation.",
-      validation: "Executed hardware test suites across physical STM32F030F4P6 silicon boards verifying clock stability, GPIO transition times, and SPI transmission framing.",
-      technologies: ["ARM Cortex-M0", "STM32F030", "Bare-Metal C", "OpenOCD", "GDB", "Logic Analyzer", "Register-Level Drivers"],
-      repositoryUrl: "https://github.com/varunkumarjob898/Driver-for-STM32F030x4-x6-x8-xC",
+      title: "STM32F030x4 Peripheral Driver Library",
+      subtitle: "Register-Level Embedded C Drivers (No Vendor HAL)",
+      category: "Bare-Metal & Device Drivers",
+      description: "Wrote bare-metal device drivers for GPIO, RCC, NVIC, EXTI, SYSCFG, ADC, SPI, and I2C on the STM32F030x4 (ARM Cortex-M0, 16 KB flash, 4 KB SRAM) using register-level Embedded C, without relying on vendor HAL.",
+      problem: "Vendor HAL abstractions introduce execution overhead, opaque interrupt handlers, and multi-layer abstraction bloat that make timing-critical peripheral control difficult to trace and optimize on constrained 16 KB Flash microcontrollers.",
+      approach: "Direct register-level bitfield manipulation referencing the RM0360 Reference Manual and Cortex-M0 Generic User Guide. Built complete custom startup assembly, linker script, and Makefile toolchain with arm-none-eabi-gcc.",
+      implementation: "Authored modular drivers for 8 core peripherals (GPIO with atomic BSRR bit set/reset, RCC system clock and prescalers, NVIC interrupt priorities, EXTI line routing, ADC 12-bit conversions, SPI master framing, I2C timing bitfields).",
+      debugging: "Isolated bus synchronization and peripheral clock gating issues using OpenOCD over ST-Link SWD with GDB hardware breakpoints and an 8-channel logic analyzer to verify SPI and I2C protocol framing.",
+      validation: "Verified clock tree configuration, GPIO switching speeds, SPI transmission framing, and I2C Start/Stop timing on physical target hardware with 17+ structured commits and public documentation.",
+      technologies: ["Embedded C", "ARM Cortex-M0", "STM32F030", "Register-Level Drivers", "Makefile", "OpenOCD", "GDB", "Logic Analyzer"],
+      repositoryUrl: "https://github.com/varunkumar898/Driver-for-STM32F030x4-x6-x8-xC",
       featured: true,
       displayOrder: 1,
       githubMetadata: {
@@ -84,48 +84,71 @@ const defaultStore = {
       }
     },
     {
-      id: "sensor-monitoring-freertos",
-      title: "Real-Time Multi-Sensor Telemetry Node",
-      subtitle: "FreeRTOS Deterministic Firmware",
-      category: "RTOS & Industrial IoT",
-      description: "Implemented deterministic multi-tasking telemetry firmware running FreeRTOS on ARM Cortex-M, gathering multi-sensor environmental parameters concurrently with zero task starvation.",
-      problem: "Concurrent I2C/SPI sensor acquisition tasks and RF transmission routines caused bus contention, missed deadlines, and jitter without RTOS scheduling.",
-      approach: "Priority-based preemptive scheduling with counting semaphores, mutexes with priority inheritance, and FreeRTOS queue message pipelines.",
-      implementation: "Created discrete tasks for ADC telemetry, I2C temperature/humidity polling, UART telemetry streaming, and a dedicated watchdog kicker task.",
-      debugging: "Used Segger SystemView and task trace hooks to measure context-switch overhead (<1.8µs) and detect stack watermark boundaries.",
-      validation: "Stress-tested under 100% bus traffic over 72 uninterrupted continuous execution hours with zero RTOS stack overflows or watchdog timeouts.",
-      technologies: ["FreeRTOS", "ARM Cortex-M", "Embedded C", "I2C", "SPI", "UART", "SystemView", "Low-Power Modes"],
-      repositoryUrl: "https://github.com/varunkumarjob898/STM32-FreeRTOS-Telemetry-Engine",
+      id: "smart-number-plate",
+      title: "Smart Number Plate for Theft Detection",
+      subtitle: "Real-Time Embedded Vehicle Security Prototype",
+      category: "RTOS & Automotive Systems",
+      description: "Developed bare-metal and FreeRTOS-based firmware on an ARM microcontroller for vehicle theft detection and actuator lockout control with real-time responsiveness.",
+      problem: "Vehicle security systems require deterministic response times between wireless RFID tag interrogation, sensor telemetry acquisition, and physical actuator control without task starvation or deadlock.",
+      approach: "Preemptive FreeRTOS multitasking architecture using thread-safe message queues and binary semaphores for inter-task communication and non-blocking ISR signal handling.",
+      implementation: "Implemented RFID protocol handling, closed-loop feedback control logic for ignition lockout, and hardware protection circuits.",
+      debugging: "Validated signal timing with a logic analyzer and debugged hardware-firmware integration issues using OpenOCD and GDB.",
+      validation: "Measured actuator response timing from unauthorized motion trigger to lockout signal and verified queue stability during rapid RFID scanning tests.",
+      technologies: ["FreeRTOS", "ARM Cortex-M", "Embedded C", "RFID", "Logic Analyzer", "OpenOCD", "GDB", "UART", "SPI"],
+      repositoryUrl: "https://github.com/varunkumar898",
       featured: true,
       displayOrder: 2,
       githubMetadata: {
-        stars: 9,
+        stars: 8,
         forks: 2,
-        commits: 24,
+        commits: 14,
         language: "C",
         lastUpdated: new Date().toISOString()
       }
     },
     {
-      id: "riscv-can-modbus",
-      title: "RISC-V Industrial CAN & Modbus Gateway",
-      subtitle: "Automotive & Industrial Control",
-      category: "Industrial Protocols & Fieldbus",
-      description: "Authored low-level communication drivers and protocol translation gateway between industrial Modbus RTU/TCP and automotive CAN 2.0B fieldbus networks on RISC-V targets.",
-      problem: "Battery Management Systems (BMS) in industrial equipment required deterministic bridging between fast CAN bus telemetry and slower legacy Modbus supervisory masters.",
-      approach: "Ring-buffered dual-core message queues with hardware CAN filter masks and non-blocking state-machine packet serialization.",
-      implementation: "Wrote CAN baudrate calculator (250kbps/500kbps), hardware filter acceptance lists, and CRC16 Modbus frame validators with error counter diagnostics.",
-      debugging: "Captured bus frame collisions and edge-jitter with oscilloscopes and protocol analyzers, tuning bit timing segments (SYNC, PROP, PHASE1, PHASE2).",
-      validation: "Bench-tested with 1000 message bursts at 80% CAN bus load with 0% dropped packets and validated checksum consistency.",
-      technologies: ["RISC-V", "CAN 2.0B", "Modbus RTU/TCP", "Embedded C", "Docker", "Saleae Logic Analyzer", "Oscilloscope"],
-      repositoryUrl: "https://github.com/varunkumarjob898/RISCV-Industrial-CAN-Modbus-Bridge",
+      id: "embedded-ui-designer",
+      title: "Embedded UI Designer (Final Year Project)",
+      subtitle: "Desktop UI Design Tool & Firmware Code Generation",
+      category: "Developer Tools & Systems",
+      description: "Built a desktop UI design tool for embedded systems with an SDK, a type-safe REST API engine, and multi-language firmware code generation for microcontrollers.",
+      problem: "Designing embedded graphical interfaces and mapping visual widgets to microcontroller memory buffers often requires repetitive manual C coordinate math and boilerplate driver code.",
+      approach: "Visual interface canvas coupled with an automated code generator translating interactive design elements into compact, type-safe C/C++ firmware data structures and rendering callbacks.",
+      implementation: "Created cross-platform desktop UI software supporting element styling, type-safe API communication, and automated C/C++ header and source code emission tailored for constrained displays.",
+      debugging: "Profiled generated code memory overhead and verified buffer compatibility across display drivers.",
+      validation: "Successfully generated firmware UI assets validated for microcontroller display integration.",
+      technologies: ["C/C++", "TypeScript", "Embedded UI", "SDK", "REST API Engine", "Code Generation", "Linux"],
+      repositoryUrl: "https://github.com/varunkumar898",
       featured: true,
       displayOrder: 3,
       githubMetadata: {
-        stars: 15,
-        forks: 4,
-        commits: 31,
-        language: "C",
+        stars: 10,
+        forks: 2,
+        commits: 22,
+        language: "TypeScript / C++",
+        lastUpdated: new Date().toISOString()
+      }
+    },
+    {
+      id: "opensource-systems",
+      title: "Open Source Systems Contributions",
+      subtitle: "LLVM Backend Optimizations & ARM System Porting",
+      category: "Compilers & Architecture",
+      description: "Contributed to low-level open source systems: compiler backend improvements in Gravel Launcher (LLVM performance) and SolidCraft system function porting to ARM architectures (Windows on ARM & Linux ARM).",
+      problem: "Compilers and cross-platform native software require deep architecture-specific instruction knowledge to optimize code emission and support ARM hardware platforms reliably.",
+      approach: "System-level profiling, LLVM IR visitor pass optimization, and POSIX / Windows ARM API abstraction porting.",
+      implementation: "Refined tokenizer and AST construction in Gravel Launcher; implemented ARM system call and runtime function mappings in SolidCraft.",
+      debugging: "Used GDB, Valgrind, and regression test suites to track memory lifetimes and ARM cross-compilation target compatibility.",
+      validation: "Verified builds on both x86_64 and ARM64 target environments with upstream merged commits.",
+      technologies: ["C++", "C", "LLVM", "ARM Architecture", "Compiler Backend", "Git", "Linux CLI"],
+      repositoryUrl: "https://github.com/varunkumar898",
+      featured: false,
+      displayOrder: 4,
+      githubMetadata: {
+        stars: 16,
+        forks: 5,
+        commits: 12,
+        language: "C++",
         lastUpdated: new Date().toISOString()
       }
     }
@@ -133,10 +156,10 @@ const defaultStore = {
   messages: [
     {
       id: "msg-sample-1",
-      name: "Alex Rivera",
-      email: "alex.rivera@embeddedtech.io",
-      subject: "Senior Firmware Engineer Inquiry",
-      message: "Hi Varun, reviewed your STM32 bare-metal drivers and register-level architecture diagrams. We have an opening on our hardware-firmware bringup team.",
+      name: "Engineering Lead",
+      email: "lead@firmware-systems.com",
+      subject: "Firmware Engineer / STM32 Driver Role",
+      message: "Reviewed your bare-metal STM32F030 driver implementation and FreeRTOS project. Let's schedule a technical conversation.",
       status: "NEW",
       receivedAt: new Date(Date.now() - 3600000 * 5).toISOString(),
       notes: ""
@@ -145,8 +168,8 @@ const defaultStore = {
   githubRepos: [
     {
       name: "Driver-for-STM32F030x4-x6-x8-xC",
-      description: "Low-level bare-metal device drivers for STM32F030 microcontroller written in C without HAL abstractions.",
-      url: "https://github.com/varunkumarjob898/Driver-for-STM32F030x4-x6-x8-xC",
+      description: "Bare-metal peripheral device drivers for STM32F030 (GPIO, RCC, NVIC, EXTI, SYSCFG, ADC, SPI, I2C) in Embedded C with custom startup code and linker script.",
+      url: "https://github.com/varunkumar898/Driver-for-STM32F030x4-x6-x8-xC",
       stars: 12,
       forks: 3,
       language: "C",
@@ -154,23 +177,23 @@ const defaultStore = {
       lastUpdated: new Date().toISOString()
     },
     {
-      name: "STM32-FreeRTOS-Telemetry-Engine",
-      description: "Real-time deterministic telemetry and sensor acquisition engine on ARM Cortex-M using FreeRTOS queues.",
-      url: "https://github.com/varunkumarjob898",
-      stars: 9,
+      name: "Smart-Number-Plate-Firmware",
+      description: "FreeRTOS and ARM Cortex-M based embedded firmware for vehicle theft detection and RFID validation.",
+      url: "https://github.com/varunkumar898",
+      stars: 8,
       forks: 2,
       language: "C",
-      commits: 24,
+      commits: 14,
       lastUpdated: new Date().toISOString()
     },
     {
-      name: "RISCV-Industrial-CAN-Modbus-Bridge",
-      description: "Automotive CAN 2.0B and industrial Modbus RTU protocol translation bridge for RISC-V edge controllers.",
-      url: "https://github.com/varunkumarjob898",
-      stars: 15,
-      forks: 4,
-      language: "C",
-      commits: 31,
+      name: "Embedded-UI-Designer",
+      description: "Desktop UI design environment and multi-language firmware code generator for microcontrollers.",
+      url: "https://github.com/varunkumar898",
+      stars: 10,
+      forks: 2,
+      language: "TypeScript / C++",
+      commits: 22,
       lastUpdated: new Date().toISOString()
     }
   ],
@@ -536,7 +559,7 @@ app.delete("/api/admin/messages/:id", verifyAdminToken, (req, res) => {
 // POST /api/admin/github/sync
 app.post("/api/admin/github/sync", verifyAdminToken, async (req, res) => {
   const store = getStore();
-  const githubUsername = process.env.GITHUB_USERNAME || "varunkumarjob898";
+  const githubUsername = process.env.GITHUB_USERNAME || "varunkumar898";
   const githubToken = process.env.GITHUB_TOKEN;
 
   try {

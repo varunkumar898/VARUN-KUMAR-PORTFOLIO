@@ -28,8 +28,8 @@ const fallbackProfile: LiveProfile = {
   degree: initialProfile.degree,
   university: initialProfile.university,
   cgpa: initialProfile.cgpa,
-  bio: "I work at the boundary between firmware and hardware. My focus is low-level embedded development, from register-level peripheral configuration and board bring-up to RTOS scheduling, communication protocols and hardware debugging.",
-  availability: initialProfile.availability || "Available for full-time roles and technical discussions.",
+  bio: "Embedded engineer writing C/C++ firmware and device drivers for ARM Cortex-M microcontrollers (STM32, ESP32). Experienced in FreeRTOS task design, interrupt handling (NVIC, EXTI), register-level drivers, and hardware-firmware debugging with JTAG/SWD, OpenOCD, GDB, and logic analyzers. Has built containerized CI/CD pipelines for firmware validation.",
+  availability: "Available for full-time embedded engineering roles and technical discussions.",
   status: "OPEN_TO_WORK"
 };
 

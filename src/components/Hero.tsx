@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, FileText, ChevronRight, Cpu } from 'lucide-react';
+import { Github, FileText, ArrowDown, MapPin, CheckCircle2 } from 'lucide-react';
 import { usePortfolio } from '../context/PortfolioContext';
 import { HeroTechnicalVisual } from './HeroTechnicalVisual';
 
@@ -21,82 +21,71 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
   return (
     <section
       id="hero"
-      className="relative pt-28 pb-20 lg:pt-36 lg:pb-24 border-b border-[#2D3748] bg-[#0D1117] overflow-hidden"
+      className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 border-b border-[#232B38] bg-[#0B0E14] overflow-hidden"
     >
-      {/* Background technical subtle grid */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-25 pointer-events-none" />
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* Left Column (Editorial Identity & Context): 7 cols */}
+          <div className="lg:col-span-7 space-y-6">
+            {/* Engineering Discipline Eyebrow */}
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#181E29] border border-[#232B38] text-xs font-mono text-[#D4A03D]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4A03D]"></span>
+              <span>EMBEDDED SYSTEMS & FIRMWARE DEVELOPER</span>
+            </div>
 
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
-        {/* Subtle engineering status badge */}
-        <div className="flex flex-wrap items-center gap-3 mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#1A1F28] border border-[#2D3748] text-xs font-mono text-[#F0F4F8]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
-            <span className="text-[#A8B8C8]">SYSTEM_STATE:</span>
-            <span className="text-[#10B981] font-medium uppercase">{profile.status || 'READY'}</span>
-          </div>
-          <div className="text-xs font-mono text-[#6B7280] hidden sm:inline-block">
-            HARDWARE ↔ FIRMWARE INTERFACE
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          {/* Left Column (Text): 48px name, 32px title, 24px tagline, 16px supporting */}
-          <div className="lg:col-span-6 space-y-6">
+            {/* Headline */}
             <div>
-              <h1 className="text-4xl sm:text-5xl lg:text-[48px] lg:leading-[56px] font-extrabold tracking-tight text-[#F0F4F8]">
-                {profile.firstName?.toUpperCase() || 'VARUN'}{' '}
-                <span className="text-[#D4AF37]">{profile.lastName?.toUpperCase() || 'KUMAR'}</span>
+              <h1 className="text-3xl sm:text-4xl lg:text-[44px] lg:leading-[52px] font-bold tracking-tight text-[#ECEFF4]">
+                Writing bare-metal drivers, FreeRTOS firmware, and low-level C for ARM microcontrollers.
               </h1>
-              <div className="mt-2 text-xl sm:text-2xl font-bold tracking-tight text-[#D4AF37] uppercase">
-                {profile.title || 'EMBEDDED SYSTEMS ENGINEER / FIRMWARE DEVELOPER'}
-              </div>
             </div>
 
-            {/* Tagline */}
-            <div>
-              <p className="text-xl sm:text-2xl text-[#A8B8C8] leading-relaxed font-normal">
-                "{profile.bio || 'I work at the boundary between firmware and hardware.'}"
-              </p>
-              <p className="mt-3 text-sm sm:text-base text-[#6B7280] font-normal">
-                STM32 • ARM Cortex-M • RISC-V • FreeRTOS • Hardware Debugging
-              </p>
+            {/* Direct, Natural Narrative Copy */}
+            <p className="text-base sm:text-lg text-[#9AA7B8] leading-relaxed max-w-2xl font-normal">
+              I am <span className="text-[#ECEFF4] font-medium">Varun Kumar</span>, an embedded engineer based in Chennai, India. 
+              I build software that communicates directly with physical silicon: reading reference manuals, 
+              writing register-level drivers without vendor HAL bloat, scheduling deterministic RTOS tasks, and 
+              verifying bus timing with logic analyzers, OpenOCD, and GDB.
+            </p>
+
+            {/* Core Technical Capabilities Row */}
+            <div className="flex flex-wrap gap-2 text-xs font-mono text-[#9AA7B8]">
+              <span className="px-2.5 py-1 rounded bg-[#12161F] border border-[#232B38] text-[#ECEFF4]">
+                ARM Cortex-M (STM32, ESP32)
+              </span>
+              <span className="px-2.5 py-1 rounded bg-[#12161F] border border-[#232B38] text-[#ECEFF4]">
+                Bare-Metal C & C++
+              </span>
+              <span className="px-2.5 py-1 rounded bg-[#12161F] border border-[#232B38] text-[#ECEFF4]">
+                FreeRTOS Subsystems
+              </span>
+              <span className="px-2.5 py-1 rounded bg-[#12161F] border border-[#232B38] text-[#ECEFF4]">
+                OpenOCD & GDB
+              </span>
+              <span className="px-2.5 py-1 rounded bg-[#12161F] border border-[#232B38] text-[#ECEFF4]">
+                Logic Analyzers & DSO
+              </span>
             </div>
 
-            {/* Coordinates / Metadata */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs">
-              <div className="p-3 rounded bg-[#1A1F28] border border-[#2D3748]">
-                <div className="text-[10px] text-[#6B7280] uppercase tracking-wider">ARCHITECTURES</div>
-                <div className="text-[#F0F4F8] font-medium mt-1">ARM & RISC-V</div>
-              </div>
-              <div className="p-3 rounded bg-[#1A1F28] border border-[#2D3748]">
-                <div className="text-[10px] text-[#6B7280] uppercase tracking-wider">FIRMWARE LAYER</div>
-                <div className="text-[#F0F4F8] font-medium mt-1">Bare-Metal / RTOS</div>
-              </div>
-              <div className="p-3 rounded bg-[#1A1F28] border border-[#2D3748] col-span-2 sm:col-span-1">
-                <div className="text-[10px] text-[#6B7280] uppercase tracking-wider">INSTRUMENTATION</div>
-                <div className="text-[#00D9FF] font-medium mt-1">DSO / Logic Scope</div>
-              </div>
-            </div>
-
-            {/* Buttons */}
-            <div className="pt-2 flex flex-wrap items-center gap-3 font-medium">
+            {/* Direct Action Buttons */}
+            <div className="pt-2 flex flex-wrap items-center gap-3">
               <a
                 href="#projects"
                 onClick={handleScrollToProjects}
                 id="hero-cta-projects"
-                className="px-6 py-3 rounded bg-[#D4AF37] text-[#0D1117] text-sm font-bold tracking-wide uppercase transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#D4AF37]/20 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] cursor-pointer"
+                className="px-5 py-2.5 rounded bg-[#D4A03D] hover:bg-[#E5B252] text-[#0B0E14] font-mono text-xs font-bold tracking-wider uppercase transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
               >
-                <span>VIEW PROJECTS</span>
-                <ChevronRight className="w-4 h-4" />
+                <span>EXPLORE PROJECTS</span>
+                <ArrowDown className="w-3.5 h-3.5" />
               </a>
 
               <button
                 onClick={onOpenResumeModal}
                 id="hero-cta-resume"
-                className="px-5 py-3 rounded bg-transparent text-[#F0F4F8] border border-[#2D3748] hover:border-[#1E90FF] hover:text-[#1E90FF] text-sm tracking-wide transition-all duration-150 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#1E90FF] cursor-pointer"
+                className="px-4 py-2.5 rounded bg-[#181E29] hover:bg-[#232B38] text-[#ECEFF4] border border-[#232B38] hover:border-[#D4A03D]/60 font-mono text-xs tracking-wider transition-colors flex items-center gap-2 cursor-pointer"
               >
-                <FileText className="w-4 h-4" />
-                <span>DOWNLOAD RESUME</span>
+                <FileText className="w-3.5 h-3.5 text-[#D4A03D]" />
+                <span>RESUME (PDF)</span>
               </button>
 
               <a
@@ -104,22 +93,28 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 id="hero-cta-github"
-                className="px-5 py-3 rounded bg-transparent text-[#F0F4F8] border border-[#2D3748] hover:border-[#1E90FF] hover:text-[#1E90FF] text-sm tracking-wide transition-all duration-150 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#1E90FF]"
+                className="px-4 py-2.5 rounded bg-[#181E29] hover:bg-[#232B38] text-[#ECEFF4] border border-[#232B38] hover:border-[#D4A03D]/60 font-mono text-xs tracking-wider transition-colors flex items-center gap-2"
               >
-                <Github className="w-4 h-4" />
+                <Github className="w-3.5 h-3.5" />
                 <span>GITHUB</span>
               </a>
             </div>
 
-            {/* Location & Academic Meta */}
-            <div className="flex items-center gap-2 text-xs text-[#A8B8C8] pt-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
-              <span>{profile.location} • {profile.degree}</span>
+            {/* Status & Academic Verification */}
+            <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-mono text-[#657386]">
+              <div className="flex items-center gap-1.5 text-[#9AA7B8]">
+                <MapPin className="w-3.5 h-3.5 text-[#D4A03D]" />
+                <span>{profile.location}</span>
+              </div>
+              <span>•</span>
+              <div className="flex items-center gap-1.5 text-[#9AA7B8]">
+                <span>B.Tech in Electronics & Computer Engineering (2026)</span>
+              </div>
             </div>
           </div>
 
-          {/* Right Column: MCU System Architecture Diagram */}
-          <div className="lg:col-span-6">
+          {/* Right Column: Interactive Peripheral Architecture Breakdown (5 cols) */}
+          <div className="lg:col-span-5">
             <HeroTechnicalVisual />
           </div>
         </div>

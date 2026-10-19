@@ -2,21 +2,36 @@ import { Profile, ExperienceItem, ProjectItem, SkillCategoryData, StrengthItem, 
 
 export const PROFILE: Profile = {
   name: "VARUN KUMAR",
-  title: "Embedded Systems Engineer | Firmware Developer",
+  title: "Embedded Systems Engineer | C/C++ Firmware | RTOS | Driver Development",
   location: "Chennai, Tamil Nadu, India",
   phone: "+91 9444386570",
   email: "varunkumarjob2004@gmail.com",
-  github: "https://github.com/varunkumarjob898",
-  linkedin: "https://linkedin.com/in/varun-kumarjob8055",
+  github: "https://github.com/varunkumar898",
+  linkedin: "https://linkedin.com/in/varunkumarjob8055",
   degree: "B.Tech in Electronics and Computer Engineering",
   university: "Vels University, Chennai, Tamil Nadu, India",
   cgpa: "7.5/10",
-  coreStatement: "I build firmware that interacts with real hardware.",
-  supportingLine: "Bare-metal • RTOS • STM32 • RISC-V • Hardware Bring-up",
-  availability: "AVAILABLE FOR EMBEDDED / FIRMWARE OPPORTUNITIES"
+  coreStatement: "Embedded engineer writing C/C++ firmware, bare-metal device drivers, and deterministic FreeRTOS tasks for ARM Cortex-M microcontrollers.",
+  supportingLine: "STM32 • Bare-Metal • FreeRTOS • Driver Architecture • OpenOCD / GDB • Logic Analyzers",
+  availability: "AVAILABLE FOR EMBEDDED / FIRMWARE ROLES"
 };
 
 export const PERIPHERALS: PeripheralNode[] = [
+  {
+    id: 'gpio',
+    name: 'GPIO (BSRR / MODER)',
+    type: 'General Purpose I/O',
+    bus: 'AHB',
+    baseAddress: '0x48000000 (GPIOA)',
+    pins: 'Port A [15:0], Port B [15:0]',
+    pinMapping: 'PA0 - PA15 (Configurable I/O)',
+    clockSpeed: 'AHB @ 48 MHz (0 Wait States)',
+    registerConfig: 'MODER: Output | BSRR: Atomic Set/Reset',
+    dmaChannel: 'Direct Bus Access',
+    irqNumber: 'EXTI4_15 (Vector 7)',
+    description: 'Direct register-level bitfield manipulation. Atomic pin write via Bit Set/Reset Register (BSRR) avoiding read-modify-write race conditions in interrupt contexts.',
+    waveformType: 'gpio'
+  },
   {
     id: 'uart',
     name: 'UART / USART',
@@ -25,212 +40,124 @@ export const PERIPHERALS: PeripheralNode[] = [
     baseAddress: '0x40013800 (USART1)',
     pins: 'PA9 (TX) / PA10 (RX)',
     pinMapping: 'PA9 (TX), PA10 (RX)',
-    clockSpeed: 'APB2 @ 48 MHz (115.2k Baud)',
+    clockSpeed: 'APB2 @ 48 MHz (115200 Baud)',
     registerConfig: 'CR1: UE|TE|RE | BRR: 0x01A1',
     dmaChannel: 'DMA1 Ch2/3',
-    irqNumber: '27 (USART1_IRQn)',
-    description: 'Baudrate generator, 8N1 framing, parity checking, and TXE/RXNE interrupt handling.',
+    irqNumber: 'USART1_IRQn (Vector 27)',
+    description: 'Hardware baudrate calculation, 8N1 framing, parity check, and non-blocking ISR queue dispatching for RFID & GPS telemetry.',
     waveformType: 'uart'
   },
   {
     id: 'spi',
-    name: 'SPI',
+    name: 'SPI Master',
     type: 'Synchronous Serial',
     bus: 'APB2',
     baseAddress: '0x40013000 (SPI1)',
     pins: 'PA5 (SCK), PA6 (MISO), PA7 (MOSI)',
     pinMapping: 'PA5 (SCK), PA6 (MISO), PA7 (MOSI)',
     clockSpeed: 'APB2 @ 48 MHz (12 MHz SCK)',
-    registerConfig: 'CR1: MSTR|SPE|BR[1]',
+    registerConfig: 'CR1: MSTR|SPE|BR[1] (Mode 0: CPOL=0, CPHA=0)',
     dmaChannel: 'DMA1 Ch2/3',
-    irqNumber: '25 (SPI1_IRQn)',
-    description: 'Full-duplex master/slave communication, CPOL/CPHA mode control, hardware CRC calculation.',
+    irqNumber: 'SPI1_IRQn (Vector 25)',
+    description: 'Full-duplex master communication, hardware NSS control, verified clock slew rate and frame alignment with logic analyzer.',
     waveformType: 'spi'
   },
   {
     id: 'i2c',
-    name: 'I2C',
+    name: 'I2C Master',
     type: 'Two-Wire Interface',
     bus: 'APB1',
     baseAddress: '0x40005400 (I2C1)',
     pins: 'PB6 (SCL) / PB7 (SDA)',
     pinMapping: 'PB6 (SCL), PB7 (SDA)',
-    clockSpeed: 'APB1 @ 48 MHz (100 kHz Std)',
-    registerConfig: 'CR1: PE | TIMINGR: 0x00B01A4B',
+    clockSpeed: 'APB1 @ 48 MHz (100 kHz Standard Mode)',
+    registerConfig: 'CR1: PE | TIMINGR: 0x00B01A4B (Computed)',
     dmaChannel: 'DMA1 Ch6/7',
-    irqNumber: '23 (I2C1_IRQn)',
-    description: 'Open-drain bus arbitration, start/stop conditions, 7-bit/10-bit addressing, ACK/NACK generation.',
+    irqNumber: 'I2C1_IRQn (Vector 23)',
+    description: 'Open-drain bus arbitration, start/stop condition sequencing, 7-bit peripheral addressing, and ACK/NACK fault recovery.',
     waveformType: 'i2c'
   },
   {
-    id: 'can',
-    name: 'CAN',
-    type: 'Controller Area Network',
-    bus: 'APB1',
-    baseAddress: '0x40006400 (CAN1)',
-    pins: 'PA11 (RX) / PA12 (TX)',
-    pinMapping: 'PA11 (RX), PA12 (TX)',
-    clockSpeed: 'APB1 @ 48 MHz (500 kbps)',
-    registerConfig: 'MCR: INRQ=0 | BTR: 0x001C0005',
-    dmaChannel: 'FIFO0 Mailbox',
-    irqNumber: '30 (CEC_CAN_IRQn)',
-    description: 'Differential signaling for robust automotive/industrial buses, identifier filter banks, mailbox queues.',
-    waveformType: 'can'
-  },
-  {
     id: 'adc',
-    name: 'ADC',
+    name: 'ADC (12-bit SAR)',
     type: 'Analog-to-Digital',
     bus: 'APB2',
     baseAddress: '0x40012400 (ADC1)',
     pins: 'PA0 - PA4 (Analog Inputs)',
-    pinMapping: 'PA0-PA4 (Analog Inputs)',
+    pinMapping: 'PA0 - PA4 (Analog Inputs)',
     clockSpeed: 'APB2 @ 48 MHz (14 MHz ADC_CLK)',
-    registerConfig: 'CR: ADEN | CHSELR: CH0..CH4',
+    registerConfig: 'CR: ADEN | CHSELR: Channel Select',
     dmaChannel: 'DMA1 Ch1',
-    irqNumber: '12 (ADC1_COMP_IRQn)',
-    description: '12-bit SAR ADC, continuous/single scan modes, hardware oversampling, end-of-conversion triggers.',
+    irqNumber: 'ADC1_COMP_IRQn (Vector 12)',
+    description: '12-bit Successive Approximation Register (SAR) ADC, continuous channel scan, calibrated against VREF = 3.30V.',
     waveformType: 'adc'
   },
   {
     id: 'pwm',
-    name: 'PWM / Timers',
+    name: 'TIM3 / PWM',
     type: 'General-Purpose Timer',
     bus: 'APB1',
     baseAddress: '0x40000400 (TIM3)',
     pins: 'PA6 (TIM3_CH1), PA7 (TIM3_CH2)',
     pinMapping: 'PA6 (TIM3_CH1), PA7 (TIM3_CH2)',
-    clockSpeed: 'APB1 @ 48 MHz (20 kHz TIM3)',
-    registerConfig: 'CCMR1: OC1M[110] | CCER: CC1E',
+    clockSpeed: 'APB1 @ 48 MHz (20 kHz PWM)',
+    registerConfig: 'CCMR1: OC1M[110] | CCER: CC1E | ARR: 2400',
     dmaChannel: 'DMA1 Ch3 (CC1)',
-    irqNumber: '16 (TIM3_IRQn)',
-    description: 'Edge-aligned and center-aligned PWM, auto-reload register (ARR), prescaler (PSC), compare registers.',
+    irqNumber: 'TIM3_IRQn (Vector 16)',
+    description: 'Edge-aligned PWM generation with prescaler, auto-reload register (ARR), and capture/compare registers for actuator timing control.',
     waveformType: 'pwm'
-  },
-  {
-    id: 'gpio',
-    name: 'GPIO',
-    type: 'General Purpose I/O',
-    bus: 'AHB',
-    baseAddress: '0x48000000 (GPIOA)',
-    pins: 'Port A [15:0], Port B [15:0]',
-    pinMapping: 'Port A [15:0], Port B [15:0]',
-    clockSpeed: 'AHB @ 48 MHz (0 WS)',
-    registerConfig: 'MODER: AF[01] | PUPDR: NO_PULL',
-    dmaChannel: 'Direct Bus',
-    irqNumber: '7 (EXTI4_15_IRQn)',
-    description: 'MODER, OTYPER, OSPEEDR, PUPDR, IDR, ODR, and atomic bit setting/resetting via BSRR.',
-    waveformType: 'gpio'
-  },
-  {
-    id: 'dma',
-    name: 'DMA',
-    type: 'Direct Memory Access',
-    bus: 'AHB',
-    baseAddress: '0x40020000 (DMA1)',
-    pins: 'Internal Bus Matrix Routing',
-    pinMapping: 'Internal Bus Matrix Routing',
-    clockSpeed: 'AHB Bus Matrix (48 MHz)',
-    registerConfig: 'CCR: EN|TCIE|DIR | CPAR: &DR',
-    dmaChannel: 'Ch1-Ch5 Arbiter',
-    irqNumber: '9-11 (DMA1_CH_IRQn)',
-    description: 'Zero-overhead peripheral-to-memory and memory-to-memory transfers without CPU intervention.',
-    waveformType: 'dma'
   }
 ];
 
 export const TECHNICAL_HIGHLIGHTS = [
-  { value: 'B.Tech', label: 'ECE Degree', sublabel: 'Hardware & Firmware' },
-  { value: 'STM32', label: 'ARM Cortex-M', sublabel: 'Register-level & HAL' },
-  { value: 'RISC-V', label: 'Architecture', sublabel: 'Industrial IoT' },
-  { value: 'FreeRTOS', label: 'Real-Time Systems', sublabel: 'Deterministic Tasks' },
-  { value: 'C / C++', label: 'Firmware', sublabel: 'Bare-Metal to RTOS' }
-];
-
-export const ENGINEERING_APPROACH = [
-  {
-    step: '01',
-    title: 'UNDERSTAND',
-    lead: 'Datasheet & Hardware Architecture',
-    description: 'Deconstruct microcontroller reference manuals, timing diagrams, clock trees, register maps, and peripheral electrical constraints before writing a single line of C.'
-  },
-  {
-    step: '02',
-    title: 'MEASURE',
-    lead: 'Physical Signals & Bus Verification',
-    description: 'Hook up oscilloscopes and logic analyzers directly to physical pins to measure real rise/fall times, clock jitter, bus contention, and protocol packet integrity.'
-  },
-  {
-    step: '03',
-    title: 'DEBUG',
-    lead: 'In-Circuit Emulation & Trace',
-    description: 'Connect OpenOCD via JTAG/SWD, halt the CPU core with GDB, inspect peripheral registers, trace stack frames, and catch priority inversion or race conditions.'
-  },
-  {
-    step: '04',
-    title: 'VALIDATE',
-    lead: 'Silicon-Level Reliability',
-    description: 'Run automated functional validation, stress interrupt routines under high bus traffic, and prove long-term firmware stability on physical production boards.'
-  }
+  { value: 'B.Tech', label: 'Electronics & Computer Eng', sublabel: 'Vels University (CGPA 7.5)' },
+  { value: 'STM32', label: 'ARM Cortex-M0 & ESP32', sublabel: 'Bare-Metal & RTOS' },
+  { value: 'RISC-V', label: 'Docker Toolchain & CI/CD', sublabel: 'MindGrow Internship' },
+  { value: 'Drivers', label: 'Register-Level C', sublabel: 'No Vendor HAL Dependency' },
+  { value: 'Hardware', label: 'In-Circuit Debugging', sublabel: 'OpenOCD • GDB • Logic Analyzer' }
 ];
 
 export const EXPERIENCES: ExperienceItem[] = [
   {
     id: 'exp-1',
-    role: 'Docker RISC-V Toolchain & CI/CD Infrastructure Firmware Engineer',
-    company: 'MindGrow Technologies, India',
+    role: 'Docker RISC-V Toolchain and CI/CD Infrastructure Development Intern',
+    company: 'MindGrow',
     location: 'India',
-    period: 'April - June',
+    period: 'Apr 2026 – Jun 2026',
     duration: '3 months',
-    logReference: 'LOG://MGT/RISCV-CI-FW-01',
-    tags: ['RISC-V', 'Embedded C', 'FreeRTOS', 'Docker', 'GCC', 'OpenOCD', 'GDB', 'Modbus', 'CAN'],
+    logReference: 'EXP://MINDGROW/RISCV-CI-CD',
+    tags: ['RISC-V', 'Docker', 'Jenkins CI/CD', 'OpenOCD', 'GDB', 'GCC Cross-Compiler', 'Linux CLI'],
     responsibilities: [
-      'Designed and debugged low-level firmware for RISC-V microcontrollers targeting industrial IoT applications.',
-      'Implemented real-time task scheduling with mutex-based synchronization and priority-based preemption for concurrent sensor and actuator management.',
-      'Built containerized CI/CD infrastructure using Docker, including GCC RISC-V toolchain, OpenOCD, and GDB.',
-      'Enabled cross-machine firmware builds and remote hardware debugging.',
-      'Implemented Modbus RTU/TCP protocol stack and CAN driver layer for battery management systems.',
-      'Validated protocol correctness using logic analyzer to detect timing violations, packet corruption, and state machine errors before hardware production release.',
-      'Debugged multi-platform firmware issues across Linux host and embedded RISC-V targets using OpenOCD and GDB.',
-      'Traced interrupt handling problems and DMA timing issues through systematic hardware-software co-debugging.'
+      'Built a containerized embedded development environment for a RISC-V toolchain (OpenOCD, GDB, cross-compiler) in a single reproducible Docker image.',
+      'Automated the firmware build and test pipeline with Jenkins CI/CD and a Docker prebuild step, enabling fast iteration and validation across multiple toolchain configurations.'
     ]
   },
   {
     id: 'exp-2',
-    role: 'Junior R&D Firmware Developer',
-    company: 'MH Cockpit, India',
-    location: 'India',
-    period: 'June - October',
-    duration: '5 months',
-    logReference: 'LOG://MHC/RND-HWFW-02',
-    tags: ['ARM Cortex-M', 'Embedded C', 'I2C', 'SPI', 'GPIO', 'GDB', 'Oscilloscope', 'Protocol Analyzer'],
+    role: 'NPD Engineer (Trainee)',
+    company: 'TVS Sundram Fasteners Ltd',
+    location: 'Tamil Nadu, India',
+    period: 'Dec 2025 – Mar 2026',
+    duration: '4 months',
+    logReference: 'EXP://TVS/NPD-MFG',
+    tags: ['AutoCAD', 'Industrial Applications', 'Technical Specifications', 'Prototype Validation', 'Manufacturing Precision'],
     responsibilities: [
-      'Developed embedded C firmware for IoT edge device prototypes on ARM Cortex-M platforms.',
-      'Debugged hardware-software integration failures using oscilloscopes and protocol analyzers.',
-      'Isolated register-level configuration errors and timing violations.',
-      'Validated sensor interfaces and multi-protocol peripheral communication.',
-      'Participated in board bring-up.',
-      'Debugged initialization sequences, peripheral clock configuration, power sequencing and reset logic.',
-      'Collaborated with PCB design and systems teams.',
-      'Created register-level debugging guides and protocol validation test cases.'
+      'Supported new product development for industrial applications, from concept through prototype validation.',
+      'Created product models and technical specifications in AutoCAD to ensure manufacturing precision and assembly accuracy.'
     ]
   },
   {
     id: 'exp-3',
-    role: 'NPD Engineer',
-    company: 'TVS Sundram Fasteners Ltd',
-    location: 'Tamil Nadu, India',
-    period: 'January - March',
-    duration: '3 months',
-    logReference: 'LOG://TVS/NPD-MFG-03',
-    tags: ['SolidWorks', 'CAD', 'Manufacturing Documentation'],
+    role: 'Junior R&D Developer (Intern)',
+    company: 'MH Cockpit',
+    location: 'India',
+    period: 'Jun 2025 – Oct 2025',
+    duration: '5 months',
+    logReference: 'EXP://MHCOCKPIT/RND-EMBEDDED',
+    tags: ['ARM Cortex-M', 'Embedded Firmware', 'IoT Devices', 'Circuit Design', 'Logic Analyzer', 'Hardware Debugging'],
     responsibilities: [
-      'Authored technical specifications and CAD models for OEM automotive components using SolidWorks.',
-      'Created hardware-to-manufacturing documentation.',
-      'Created assembly procedures.',
-      'Created quality assurance protocols.',
-      'Collaborated with product engineering and manufacturing teams.',
-      'Participated in design reviews and process optimization meetings.'
+      'Developed embedded firmware, circuit designs, and hardware-software integration for IoT devices and product prototypes.',
+      'Performed hardware debugging, protocol analysis, embedded system testing, and prototype validation with lab equipment for product qualification.'
     ]
   }
 ];
@@ -239,50 +166,49 @@ export const PROJECTS: ProjectItem[] = [
   {
     id: 'stm32f030-drivers',
     slug: 'stm32f030-drivers',
-    title: 'STM32F030 Hardware Abstraction Layer',
-    subtitle: 'Register-Level Device Drivers',
-    category: 'Device Drivers & Bare-Metal',
-    description: 'Implemented 8 core device drivers at register level from ARM Cortex-M0 datasheets without third-party HAL bloat.',
-    technologies: ['Embedded C', 'ARM Cortex-M0', 'STM32F030', 'Make', 'GDB', 'OpenOCD', 'Oscilloscope', 'Logic Analyzer'],
-    repositoryUrl: 'https://github.com/varunkumarjob898/Driver-for-STM32F030x4-x6-x8-xC',
+    title: 'STM32F030x4 Peripheral Driver Library',
+    subtitle: 'Register-Level Embedded C Drivers (No Vendor HAL)',
+    category: 'Bare-Metal & Device Drivers',
+    description: 'Wrote bare-metal device drivers for GPIO, RCC, NVIC, EXTI, SYSCFG, ADC, SPI, and I2C on the STM32F030x4 (ARM Cortex-M0, 16 KB flash, 4 KB SRAM) using register-level Embedded C, with no vendor HAL.',
+    technologies: ['Embedded C', 'ARM Cortex-M0', 'STM32F030', 'Makefile', 'ARM GCC', 'OpenOCD', 'GDB', 'Logic Analyzer'],
+    repositoryUrl: 'https://github.com/varunkumar898/Driver-for-STM32F030x4-x6-x8-xC',
     metadata: {
-      commits: '17 commits',
-      status: 'Production-ready code',
-      targetHardware: 'STM32F030x4/x6/x8/xC (ARM Cortex-M0)',
-      codeStyle: 'Bare-metal, MISRA-inspired, zero external HAL dependencies'
+      commits: '17+ commits',
+      status: 'Repository with Public Documentation',
+      targetHardware: 'STM32F030x4 (Cortex-M0, 16 KB Flash, 4 KB SRAM)',
+      codeStyle: 'Bare-metal C, direct register bitfield manipulation, zero vendor HAL'
     },
     drivers: ['GPIO', 'RCC', 'NVIC', 'SYSCFG', 'EXTI', 'ADC', 'SPI', 'I2C'],
     details: {
-      overview: 'A complete, clean, register-level hardware abstraction layer and device driver library written in pure C for the STM32F030 ARM Cortex-M0 series. Written directly from the RM0360 Reference Manual and Cortex-M0 Generic User Guide, targeting maximum execution determinism and minimal binary footprint.',
+      overview: 'A modular, register-level peripheral driver suite written directly from the ST RM0360 Reference Manual and ARM Cortex-M0 Generic User Guide for the STM32F030x4 microcontroller. Every driver accesses peripheral registers via volatile struct pointer offsets, providing complete control over peripheral clocking, interrupt generation, and bus timing without vendor abstraction overhead.',
       architecture: {
         diagramSteps: [
-          'APPLICATION LAYER',
-          'DRIVER API (Clean abstraction header files)',
-          'PERIPHERAL DRIVER (State management & bit manipulation)',
-          'REGISTER CONFIGURATION (Direct memory-mapped pointer dereferences)',
-          'STM32F030 SILICON (ARM Cortex-M0 core & AHB/APB buses)',
-          'OSCILLOSCOPE / LOGIC ANALYZER (Physical bus inspection)',
-          'HARDWARE VALIDATION (Clock accuracy, rise time & ACK compliance)'
+          'APPLICATION FIRMWARE (Modular C Modules)',
+          'DRIVER API LAYER (stm32f030_gpio.h, stm32f030_spi.h, etc.)',
+          'REGISTER MAP DEFINITIONS (Base addresses & volatile bitfields)',
+          'AHB / APB BUS INTERCONNECT (Memory-mapped peripheral registers)',
+          'STM32F030x4 SILICON (ARM Cortex-M0 Core, 48 MHz SYSCLK)',
+          'PHYSICAL PINS & LAB INSTRUMENTATION (ST-Link SWD, Logic Analyzer, DSO)'
         ],
-        description: 'Memory-mapped peripheral architecture where each peripheral base address is mapped via strongly typed C structures representing register offsets. All driver APIs provide atomic register manipulations, avoiding read-modify-write race conditions where hardware supports bit-set/reset registers (like GPIO BSRR).'
+        description: 'Memory-mapped peripheral architecture. Peripherals are mapped through typed C struct definitions matching silicon register offsets. Atomic bit manipulation is used for GPIO via BSRR to prevent race conditions during concurrent execution.'
       },
       implementation: {
         points: [
-          'Developed 8 core drivers: GPIO (modes, speeds, pull-up/down, alternate functions), RCC (system clock, PLL, APB/AHB prescalers), NVIC (priority groupings, enable/clear pending), SYSCFG (EXTI line routing), EXTI (edge-triggered interrupts), ADC (12-bit SAR configuration), SPI (master mode, CPOL/CPHA, NSS hardware/software control), and I2C (standard/fast mode, timing registers, ACK control).',
-          'Authored clean startup code (.s) and custom GNU linker scripts (.ld) configuring vector tables, flash memory partitions, and SRAM stacks.',
-          'Configured modular Makefiles with arm-none-eabi-gcc toolchain with optimization flags (-O2, -Wall, -Wextra, -mcpu=cortex-m0 -mthumb).'
+          'Engineered 8 core peripheral drivers: GPIO (modes, speeds, pull-up/down, alternate functions), RCC (system clock, PLL, APB/AHB prescalers), NVIC (interrupt enable, priority assignment), SYSCFG (EXTI multiplexing), EXTI (edge-triggered external interrupts), ADC (12-bit SAR conversion), SPI (master mode, CPOL/CPHA control), and I2C (timing registers, Start/Stop generation, 7-bit addressing).',
+          'Constructed bare-metal toolchain from scratch: written startup assembly code initializing vector table and reset handler, custom GNU linker script (.ld) defining FLASH (16 KB) and SRAM (4 KB) partitions, and modular Makefile for arm-none-eabi-gcc.',
+          'Configured OpenOCD flash programming scripts and GDB initialization files for seamless in-circuit debugging.'
         ],
         codeSnippet: {
-          title: 'stm32f030_gpio.c - Atomic Pin Toggle and Mode Configuration',
+          title: 'stm32f030_gpio.c - Register-Level Mode Configuration & Atomic Pin Set/Reset',
           language: 'c',
           code: `/* Direct register configuration for GPIO pin output mode */
 void GPIO_Init(GPIO_TypeDef *pGPIOx, GPIO_PinConfig_t *pPinConfig) {
     uint32_t temp = 0;
-    
+
     /* 1. Configure Pin Mode (Input, Output, Alt Function, Analog) */
     temp = (pPinConfig->GPIO_PinMode << (2 * pPinConfig->GPIO_PinNumber));
-    pGPIOx->MODER &= ~(0x3 << (2 * pPinConfig->GPIO_PinNumber)); // Clear bits
-    pGPIOx->MODER |= temp;                                       // Set bits
+    pGPIOx->MODER &= ~(0x3 << (2 * pPinConfig->GPIO_PinNumber)); // Clear 2-bit field
+    pGPIOx->MODER |= temp;                                       // Set desired mode
 
     /* 2. Configure Output Speed */
     temp = (pPinConfig->GPIO_PinSpeed << (2 * pPinConfig->GPIO_PinNumber));
@@ -295,7 +221,7 @@ void GPIO_Init(GPIO_TypeDef *pGPIOx, GPIO_PinConfig_t *pPinConfig) {
     pGPIOx->PUPDR |= temp;
 }
 
-/* Atomic pin write using Bit Set/Reset Register (BSRR) to avoid RMW race */
+/* Atomic pin write using Bit Set/Reset Register (BSRR) to avoid RMW race conditions */
 void GPIO_WriteToOutputPin(GPIO_TypeDef *pGPIOx, uint8_t PinNumber, uint8_t Value) {
     if (Value == GPIO_PIN_SET) {
         pGPIOx->BSRR = (1 << PinNumber);          // Set bit [15:0]
@@ -307,223 +233,222 @@ void GPIO_WriteToOutputPin(GPIO_TypeDef *pGPIOx, uint8_t PinNumber, uint8_t Valu
       },
       debugging: {
         challenges: [
-          'Peripheral clock gating: Isolated an issue where GPIO register writes failed to take effect because the corresponding AHBENR bit in the RCC block had not finished settling.',
-          'I2C timing register calculation: Configured the PRESC, SCLDEL, SDADEL, SCLH, SCLL bitfields in the I2C_TIMINGR register from datasheet formulas to achieve exactly 100 kHz standard mode.',
-          'EXTI line multiplexing: Debugged an interrupt collision across PA0 and PB0 by properly configuring SYSCFG_EXTICR1 alternate routing.'
+          'Peripheral Clock Gating: Verified that enabling RCC peripheral clocks requires appropriate settle time before accessing peripheral configuration registers, otherwise generating bus faults.',
+          'I2C Timing Register Calculation: Derived PRESC, SCLDEL, SDADEL, SCLH, and SCLL bitfield values directly from clock equations in RM0360 to ensure 100 kHz standard mode timing compliance.',
+          'EXTI Multiplexing: Handled interrupt line routing through SYSCFG registers to map pins accurately across Port A and Port B.'
         ],
-        instrumentsUsed: ['GDB with OpenOCD via ST-Link v2', 'Digital Storage Oscilloscope (DSO)', '8-Channel 24MHz Logic Analyzer']
+        instrumentsUsed: ['OpenOCD via ST-Link V2 (SWD)', 'GDB interactive debugger', '8-channel 24 MHz logic analyzer']
       },
       validation: {
         methods: [
-          'Oscilloscope probe attached to SPI MOSI and SCK pins verifying clock frequency, phase timing (CPHA=0, CPOL=0), and signal slew rate.',
-          'Logic analyzer captures confirming I2C Start condition, 7-bit peripheral address transmission, Slave ACK, and Stop bit generation.',
-          'Continuous 48-hour hardware toggle test verifying zero memory leaks or unhandled HardFault exceptions.'
+          'Attached logic analyzer to SPI SCK, MOSI, and MISO lines to inspect clock phase (Mode 0) and byte framing.',
+          'Inspected I2C Start condition, 7-bit peripheral address transmission, and ACK bit timing using logic analyzer traces.',
+          'Stepped through startup assembly in GDB to verify vector table relocation and stack pointer initialization.'
         ],
         metrics: [
-          'Binary size reduction: Over 65% smaller flash footprint compared to default vendor HAL libraries.',
-          'Execution latency: Deterministic GPIO toggling in 2 CPU cycles using BSRR register dereferencing.'
+          'Minimal footprint: Pure register C drivers with zero external HAL overhead.',
+          'Repository: 17+ Git commits with public documentation detailing pinout, build steps, and hardware bring-up.'
         ]
       },
       results: {
         outcomes: [
-          'Production-ready, modular driver suite providing direct, deterministic hardware access.',
-          '17 structured Git commits with self-contained driver examples and Make build targets.',
-          'Documented register maps and verification scripts enabling seamless reuse across Cortex-M0 silicon.'
+          'Created standalone, modular C driver library ready for bare-metal ARM Cortex-M projects.',
+          'Deep practical understanding of microcontroller memory maps, clock trees, and register interfaces.',
+          'Public GitHub repository with comprehensive README, schematics, and verification steps.'
         ],
-        keyTakeaway: 'Deep register-level mastery delivers unmatched timing control, minimal binary footprint, and true hardware diagnostic capability.'
+        keyTakeaway: 'Working directly with microcontroller registers establishes true hardware comprehension and eliminates hidden vendor library overhead.'
       }
     }
   },
   {
-    id: 'smart-number-plating',
-    slug: 'smart-number-plating',
-    title: 'Smart Number Plating System for Vehicle Theft Detection',
-    subtitle: 'FreeRTOS-based embedded automotive prototype',
+    id: 'smart-number-plate',
+    slug: 'smart-number-plate',
+    title: 'Smart Number Plate for Theft Detection',
+    subtitle: 'Real-Time Embedded Vehicle Security Prototype',
     category: 'RTOS & Automotive Systems',
-    description: 'Built FreeRTOS-based real-time firmware for an automotive prototype combining RFID protocol handling, GPS integration and closed-loop control logic.',
-    technologies: ['FreeRTOS', 'Embedded C', 'RFID', 'GPS', 'Queues', 'Semaphores', 'OpenOCD', 'GDB', 'UART', 'SPI'],
+    description: 'Developed bare-metal and FreeRTOS-based firmware on an ARM microcontroller for vehicle theft detection and actuator lockout control with real-time responsiveness.',
+    technologies: ['FreeRTOS', 'ARM Cortex-M', 'Embedded C', 'RFID', 'Logic Analyzer', 'OpenOCD', 'GDB', 'UART', 'SPI'],
+    repositoryUrl: 'https://github.com/varunkumar898',
     metadata: {
       status: 'Functional Hardware Prototype',
-      targetHardware: 'ARM Cortex-M / Microcontroller target',
-      codeStyle: 'Preemptive RTOS, thread-safe message queues'
+      targetHardware: 'ARM Microcontroller Target',
+      codeStyle: 'FreeRTOS tasks, non-blocking ISRs, queue message passing'
     },
     details: {
-      overview: 'An embedded automotive telematics prototype designed to detect vehicle theft through authenticated RFID electronic license plate validation and GPS geofencing. Operating under FreeRTOS, the system maintains strict real-time deadlines between sensor telemetry, wireless communications, and ignition solenoid actuator control.',
+      overview: 'An embedded vehicle security prototype combining RFID authentication and real-time control logic under FreeRTOS. The system interrogates authorized credentials, evaluates security state transitions, and controls vehicle lockout actuators within deterministic timing constraints.',
       architecture: {
         diagramSteps: [
-          'SENSORS (RFID Reader + GPS NMEA Stream)',
-          'INTERRUPTS (UART ISR & SPI DMA End-of-Transfer)',
-          'FREERTOS TASKS (rfidTask, gpsTask, telemetryTask, actuatorTask)',
-          'QUEUES / SEMAPHORES (xQueueSendFromISR, binary semaphores for mutual exclusion)',
-          'CONTROL LOGIC (Theft classification & state-machine evaluation)',
-          'ACTUATOR (Relay / Ignition cut-off solenoid with safety interlocks)'
+          'RFID READER / CREDENTIAL SENSOR',
+          'UART / SPI INTERRUPT SERVICE ROUTINES',
+          'FREERTOS MESSAGE QUEUES (xQueueSendFromISR)',
+          'AUTHENTICATION & CONTROL TASK (Preemptive priority scheduling)',
+          'HARDWARE PROTECTION & SOLENOID ACTUATOR'
         ],
-        description: 'Multi-threaded priority architecture. The RFID tag reader and GPS NMEA parser operate as independent tasks communicating through thread-safe FreeRTOS message queues. Critical security alerts preempt lower-priority logging tasks to activate the actuator within deterministically bounded latency.'
+        description: 'Multi-tasking architecture dividing wireless protocol handling, state evaluation, and physical lockout triggering into discrete FreeRTOS tasks to guarantee deterministic responsiveness.'
       },
       implementation: {
         points: [
-          'Engineered FreeRTOS task hierarchy with strict priority assignments (ActuatorTask: Priority 4, RFIDTask: Priority 3, GPSTask: Priority 2, LogTask: Priority 1).',
-          'Utilized FreeRTOS queues (xQueueCreate, xQueueSendFromISR) to transfer raw GPS coordinates and RFID UID tokens without blocking ISR contexts.',
-          'Implemented mutex-protected shared state for vehicle location coordinates, eliminating telemetry corruption.',
-          'Authored circular ring buffers for handling continuous GPS UART streams at 9600 baud with hardware DMA.'
+          'Implemented FreeRTOS task scheduling with discrete task priorities for credential acquisition and safety-critical lockout evaluation.',
+          'Engineered non-blocking ISR handlers dispatching received RFID packets into thread-safe FreeRTOS queues via xQueueSendFromISR.',
+          'Implemented closed-loop feedback control logic and hardware protection circuits protecting microcontroller pins from inductive kickback.'
         ],
         codeSnippet: {
-          title: 'freertos_tasks.c - Deterministic ISR to Queue Dispatch',
+          title: 'rfid_isr_dispatch.c - Non-blocking ISR to FreeRTOS Queue Transfer',
           language: 'c',
-          code: `/* RFID UART Interrupt Service Routine */
-void USART2_IRQHandler(void) {
+          code: `/* UART Receive ISR for RFID Packet Decoding */
+void USART_RFID_IRQHandler(void) {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     uint8_t rxByte;
 
-    if (USART2->SR & USART_SR_RXNE) {
-        rxByte = (uint8_t)(USART2->DR & 0xFF);
-        
-        /* Send byte into bounded queue without blocking ISR */
-        xQueueSendFromISR(xRfidByteQueue, &rxByte, &xHigherPriorityTaskWoken);
-        
-        /* Preempt immediately if a higher priority task is unblocked */
-        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-    }
-}
+    if (USART1->ISR & USART_ISR_RXNE) {
+        rxByte = (uint8_t)(USART1->RDR & 0xFF);
 
-/* Real-Time Theft Evaluation Task */
-void vTheftEvaluationTask(void *pvParameters) {
-    VehicleStatus_t status;
-    for (;;) {
-        /* Block until vehicle status token arrives from sensor queues */
-        if (xQueueReceive(xVehicleStatusQueue, &status, portMAX_DELAY) == pdTRUE) {
-            if (status.isUnauthorizedMovement && !status.isRfidAuthenticated) {
-                // Trigger audible warning & lock ignition solenoid
-                vActuator_TriggerLockout();
-            }
-        }
+        /* Push raw byte into FreeRTOS queue without blocking ISR */
+        xQueueSendFromISR(xRfidQueue, &rxByte, &xHigherPriorityTaskWoken);
+
+        /* Yield immediately if a higher priority evaluation task was unblocked */
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     }
 }`
         }
       },
       debugging: {
         challenges: [
-          'UART FIFO overrun during high-frequency GPS bursts: Fixed by implementing DMA circular buffer mode instead of per-byte interrupts.',
-          'Priority inversion risk: Resolved by utilizing FreeRTOS Mutex with built-in priority inheritance rather than raw binary semaphores on shared telemetry structures.',
-          'Stack overflow detection: Enabled FreeRTOS configCHECK_FOR_STACK_OVERFLOW (Method 2) to size task stacks accurately for deep NMEA string parsing.'
+          'Sensor timing jitter: Replaced busy-waiting loops with FreeRTOS queues and event flags to prevent task starvation.',
+          'Signal bounce and noise: Isolated transient spikes during actuator engagement with flyback diodes and hardware decoupling.'
         ],
-        instrumentsUsed: ['GDB / OpenOCD for FreeRTOS thread awareness', 'Logic analyzer on UART RX/TX and Actuator GPIO lines']
+        instrumentsUsed: ['Logic analyzer on serial lines', 'GDB / OpenOCD for firmware breakpoint inspection']
       },
       validation: {
         methods: [
-          'Measured worst-case task latency using logic analyzer pin toggles at ISR entry and actuator engagement.',
-          'Simulated continuous invalid RFID attempts while saturating the GPS UART link to test RTOS scheduler resilience.'
+          'Validated signal timing and protocol frame integrity with a logic analyzer.',
+          'Debugged hardware-firmware integration issues step-by-step using OpenOCD and GDB.'
         ],
         metrics: [
-          'Actuator response time: < 45 ms from theft confirmation to ignition cut-off pulse.',
-          'CPU utilization: Maintained < 28% peak load under full telemetry acquisition.'
+          'Real-time responsiveness: Fast, deterministic lockout trigger upon confirmed unauthorized condition.',
+          'Zero deadlock during continuous multi-cycle RFID tag read sequences.'
         ]
       },
       results: {
         outcomes: [
-          'Demonstrated deterministic real-time behavior under concurrent sensor streams.',
-          'Achieved robust fail-safe states preventing accidental lockout during legitimate operation.',
-          'Verified thread-safe inter-task communication with zero deadlocks during multi-hour soak tests.'
+          'Successfully demonstrated real-time automotive theft detection on physical hardware.',
+          'Practical application of FreeRTOS queues, task priorities, and interrupt management.',
+          'Integrated hardware protection circuits safeguarding microcontroller I/O.'
         ],
-        keyTakeaway: 'Deterministic RTOS systems require thoughtful priority assignment, non-blocking ISR design, and rigorous timing verification.'
+        keyTakeaway: 'Reliable real-time embedded systems depend on deterministic task scheduling and clean interrupt boundaries.'
       }
     }
   },
   {
-    id: 'gravel-compiler',
-    slug: 'gravel-compiler',
-    title: 'Gravel Programming Language Compiler',
-    subtitle: 'Open Source Contribution',
-    category: 'Compilers & Low-Level Infrastructure',
-    description: 'Contributed to compiler backend infrastructure including AST construction, tokenizer refinement, and LLVM code generation pipelines.',
-    technologies: ['C / C++', 'LLVM', 'Compiler Backend', 'Lexical Analysis', 'AST', 'Git', 'Linux'],
-    repositoryUrl: 'https://github.com/Pacsfury/Gravel-Launcher',
+    id: 'embedded-ui-designer',
+    slug: 'embedded-ui-designer',
+    title: 'Embedded UI Designer (Final Year Project)',
+    subtitle: 'Desktop UI Design Tool & Firmware Code Generation',
+    category: 'Developer Tools & Systems',
+    description: 'Built a desktop UI design tool for embedded systems with an SDK, a type-safe REST API engine, and multi-language firmware code generation for microcontrollers.',
+    technologies: ['C/C++', 'TypeScript', 'Embedded UI', 'SDK', 'REST API Engine', 'Code Generation', 'Linux'],
+    repositoryUrl: 'https://github.com/varunkumar898',
     metadata: {
-      status: 'Merged Open Source Contribution',
-      contributionType: 'Backend compiler architecture & code generation',
-      community: 'Pacsfury / Gravel Language'
+      status: 'Final Year Engineering Project',
+      targetHardware: 'Microcontrollers with Graphic/OLED Displays',
+      codeStyle: 'Type-safe SDK, compact C/C++ firmware data structures'
     },
-    contributions: [
-      'Tokenizer refinement',
-      'Lexical Analysis',
-      'AST Construction',
-      'LLVM Code Generation',
-      'Memory Management',
-      'Code Generation Optimization'
-    ],
     details: {
-      overview: 'Open source contribution to the Gravel programming language project. Contributed to low-level compiler backend stages, transforming source code into abstract syntax trees (AST) and lowering representations into LLVM Intermediate Representation (IR) for machine code synthesis.',
+      overview: 'A specialized desktop tool designed to streamline embedded display development. Allows engineers to visually lay out widgets, buttons, dials, and telemetry gauges, and automatically generates compact, type-safe C and C++ data structures and render callbacks for resource-constrained microcontrollers.',
       architecture: {
         diagramSteps: [
-          'SOURCE CODE (.grv input file)',
-          'TOKENIZER / LEXICAL ANALYZER (Token stream generation)',
-          'PARSER & AST BUILDER (Hierarchical syntax node tree)',
-          'SEMANTIC ANALYSIS & SYMBOL RESOLUTION (Type validation)',
-          'LLVM IR CODE GENERATION (Lowering into SSA-form instructions)',
-          'LLVM OPTIMIZATION PASSES (Instruction combining & dead code elimination)',
-          'TARGET MACHINE CODE / BINARY EMISSION (Native machine instructions)'
+          'DESKTOP CANVAS (Visual layout & component hierarchy)',
+          'UI SPECIFICATION ENGINE (JSON layout schema)',
+          'TYPE-SAFE REST API & SDK (Cross-tool integration)',
+          'FIRMWARE CODE GENERATOR (AST & code emission engine)',
+          'GENERATED C/C++ HEADERS (Directly compilable into microcontroller project)'
         ],
-        description: 'Compiler pipeline following standard multi-pass compilation architecture. Focused on AST construction purity, memory safety during node allocation, and seamless lowering to LLVM IR constructs.'
+        description: 'Decoupled architecture connecting an intuitive desktop canvas with a code generation pipeline that translates coordinates and widget properties into optimized C structs.'
       },
       implementation: {
         points: [
-          'Implemented lexer improvements handling complex numeric literal suffixes and escape sequences.',
-          'Enhanced Abstract Syntax Tree (AST) node structures to retain accurate source code line and column metadata for error diagnostics.',
-          'Contributed to the LLVM IR code generation visitor, mapping high-level language control-flow and arithmetic expressions into Single Static Assignment (SSA) instructions.',
-          'Ensured rigorous memory allocation and lifetime handling across AST node trees to prevent memory leaks in large compilation units.'
-        ],
-        codeSnippet: {
-          title: 'ast_llvm_codegen.cpp - Lowering Binary Expressions to LLVM IR',
-          language: 'cpp',
-          code: `// Lowering binary arithmetic nodes into LLVM SSA instructions
-llvm::Value* BinaryExprAST::codegen(CodegenContext& context) {
-    llvm::Value* L = LHS->codegen(context);
-    llvm::Value* R = RHS->codegen(context);
-    if (!L || !R) return nullptr;
-
-    switch (Op) {
-        case Token::PLUS:
-            return context.builder.CreateAdd(L, R, "addtmp");
-        case Token::MINUS:
-            return context.builder.CreateSub(L, R, "subtmp");
-        case Token::STAR:
-            return context.builder.CreateMul(L, R, "multmp");
-        case Token::SLASH:
-            return context.builder.CreateSDiv(L, R, "divtmp");
-        case Token::BIT_AND:
-            return context.builder.CreateAnd(L, R, "andtmp");
-        case Token::BIT_OR:
-            return context.builder.CreateOr(L, R, "ortmp");
-        default:
-            return context.error("Invalid binary operator");
-    }
-}`
-        }
+          'Engineered desktop UI interface allowing rapid configuration of embedded display components and screen hierarchies.',
+          'Built an SDK and type-safe REST API engine facilitating extensible tooling integration.',
+          'Authored code generation templates producing minimal-overhead C/C++ source code suitable for Flash-constrained microcontrollers.'
+        ]
       },
       debugging: {
         challenges: [
-          'SSA form compliance: Resolved LLVM IR verification assertions where variables were mutated without phi nodes.',
-          'Memory lifecycle in AST trees: Fixed dangling pointer issues in operator precedence climbing passes using smart pointer ownership models.'
+          'Flash footprint optimization: Minimized generated font and bitmap representation arrays to preserve microcontroller SRAM.',
+          'Coordinate scaling: Maintained pixel-perfect alignment across diverse display resolutions (128x64 OLED, 320x240 TFT).'
         ],
-        instrumentsUsed: ['GDB / Valgrind for memory tracking', 'LLVM FileCheck for IR regression tests', 'Git for collaborative code reviews']
+        instrumentsUsed: ['Target microcontroller display modules', 'Linux development environment']
       },
       validation: {
         methods: [
-          'Passed comprehensive compiler test suite verifying tokenization, AST consistency, and valid LLVM IR emissions.',
-          'Code review and collaborative merge into master branch after validation on Linux test runners.'
+          'Generated firmware files integrated directly into microcontroller build pipelines to verify rendering accuracy.'
         ],
         metrics: [
-          'Pull request successfully reviewed and merged by project maintainers.',
-          '100% pass rate across compiler unit tests for updated lexical tokens.'
+          'Full-featured desktop application providing automated C/C++ code generation.'
         ]
       },
       results: {
         outcomes: [
-          'Demonstrated capability to understand and contribute to large, multi-file low-level C/C++ codebases.',
-          'Practical application of compiler architecture, AST transformations, and LLVM toolchains.',
-          'Proved low-level software acumen that directly translates to firmware optimization and instruction-level comprehension.'
+          'Significantly reduced manual C coordinate boilerplate for embedded display developers.',
+          'Built end-to-end type-safe toolchain bridging desktop design with microcontroller firmware.'
         ],
-        keyTakeaway: 'Understanding how high-level code compiles down to LLVM IR and machine instructions gives deep intuition when writing performance-critical embedded firmware.'
+        keyTakeaway: 'Building developer tools requires empathy for the resource limitations of target embedded hardware.'
+      }
+    }
+  },
+  {
+    id: 'opensource-systems',
+    slug: 'opensource-systems',
+    title: 'Open Source Systems Contributions',
+    subtitle: 'LLVM Backend Optimizations & ARM System Porting',
+    category: 'Compilers & Systems Infrastructure',
+    description: 'Contributed to low-level open source systems: compiler backend improvements in Gravel Launcher (LLVM performance) and SolidCraft system function porting to ARM architectures (Windows on ARM & Linux ARM).',
+    technologies: ['C++', 'C', 'LLVM', 'ARM Architecture', 'Compiler Backend', 'Git', 'Linux CLI'],
+    repositoryUrl: 'https://github.com/varunkumar898',
+    metadata: {
+      status: 'Merged Open Source Contributions',
+      targetHardware: 'ARM64 & x86_64 Host/Target Systems',
+      codeStyle: 'Modern C++, LLVM IR visitors, POSIX/ARM runtime APIs'
+    },
+    details: {
+      overview: 'Practical contributions to low-level open source systems software. Contributed to Gravel Launcher compiler backend optimization (tokenizer refinement, AST construction, and LLVM code generation) and ported SolidCraft core system functions to ARM devices across both Windows on ARM and Linux.',
+      architecture: {
+        diagramSteps: [
+          'SOURCE CODE TOKENIZER (Lexical analysis & token stream)',
+          'ABSTRACT SYNTAX TREE (AST node construction)',
+          'LLVM BACKEND CODEGEN (Lowering to LLVM IR instructions)',
+          'ARM ARCHITECTURE PORT (System calls, runtime mapping, ABI compatibility)'
+        ],
+        description: 'Working at compiler and architecture boundaries to optimize execution and enable native execution on ARM devices.'
+      },
+      implementation: {
+        points: [
+          'Refined lexical tokenizer and Abstract Syntax Tree node construction in Gravel Launcher.',
+          'Optimized compiler backend visitor logic generating LLVM Intermediate Representation.',
+          'Ported platform system functions in SolidCraft to execute natively on ARM hardware targets.'
+        ]
+      },
+      debugging: {
+        challenges: [
+          'Memory lifecycle across AST nodes: Prevented leaks and dangling references using modern C++ memory semantics.',
+          'Cross-architecture ABI differences: Handled word size and register calling conventions when porting to ARM.'
+        ],
+        instrumentsUsed: ['GDB / Valgrind', 'LLVM toolchain', 'Git / GitHub CI runners']
+      },
+      validation: {
+        methods: [
+          'Verified compiler test suites and automated builds on ARM and x86 targets.'
+        ],
+        metrics: [
+          'Merged contributions into open source repositories.'
+        ]
+      },
+      results: {
+        outcomes: [
+          'Demonstrated ability to contribute to complex multi-file native C/C++ codebases.',
+          'Deep understanding of instruction generation, LLVM compiler pipelines, and ARM runtime systems.'
+        ],
+        keyTakeaway: 'Understanding compiler internals and processor architectures provides deep insight into writing high-performance firmware.'
       }
     }
   }
@@ -533,251 +458,197 @@ export const SKILL_CATEGORIES: SkillCategoryData[] = [
   {
     id: 'firmware',
     number: '01',
-    title: 'FIRMWARE & EMBEDDED SYSTEMS',
-    description: 'Low-level software development, RTOS scheduling, and direct silicon control.',
+    title: 'Languages & Core Systems',
+    description: 'Low-level and systems programming languages.',
     skills: [
+      'C',
       'Embedded C',
-      'Embedded C++',
-      'Bare-metal Programming',
-      'Device Driver Development',
-      'FreeRTOS',
-      'Interrupt Handling',
-      'ISR Design',
-      'Real-Time Scheduling',
-      'Memory Management',
-      'Mutexes',
-      'Semaphores',
-      'Hardware Abstraction Layers',
-      'Register-Level Programming'
+      'C++ (OOP fundamentals)',
+      'ARM Assembly',
+      'Python',
+      'Bash / Shell scripting'
     ]
   },
   {
-    id: 'mcu-arch',
+    id: 'rtos',
     number: '02',
-    title: 'MICROCONTROLLERS & ARCHITECTURE',
-    description: 'Processor core architectures, instruction sets, and silicon families.',
+    title: 'RTOS & Real-Time Architecture',
+    description: 'Deterministic task scheduling, queues, and interrupt management.',
     skills: [
-      'ARM Cortex-M0',
-      'ARM Cortex-M3',
-      'ARM Cortex-M4',
-      'STM32F0',
-      'STM32L0',
-      'STM32H7',
-      'RISC-V',
-      'RISC-V ISA'
+      'FreeRTOS',
+      'Task management',
+      'Real-time scheduling',
+      'Interrupt handling (NVIC, EXTI)',
+      'State-based control logic',
+      'Deterministic behavior',
+      'Timing analysis'
     ]
   },
   {
-    id: 'peripherals',
+    id: 'mcu',
     number: '03',
-    title: 'PERIPHERALS',
-    description: 'Hardware peripheral configuration, clocking, and direct register control.',
+    title: 'Microcontrollers & Peripherals',
+    description: 'Silicon targets and register-level peripheral drivers.',
     skills: [
-      'GPIO',
-      'ADC',
-      'DAC',
-      'PWM',
-      'Timers',
-      'EXTI',
-      'NVIC',
-      'DMA',
-      'RTC',
-      'Watchdog Timers',
-      'Clock Management',
-      'Power Management'
+      'ARM Cortex-M (M0)',
+      'STM32 (F0, F4)',
+      'ESP32',
+      'RISC-V',
+      'Bare-metal programming',
+      'GPIO, RCC, NVIC, EXTI, SYSCFG',
+      'ADC, SPI, I2C, UART, CAN',
+      'Startup assembly & linker scripts'
     ]
   },
   {
-    id: 'communication',
+    id: 'protocols',
     number: '04',
-    title: 'COMMUNICATION PROTOCOLS',
-    description: 'Serial buses, industrial protocols, and wireless connectivity interfaces.',
+    title: 'Communication & Protocols',
+    description: 'Physical buses and data transmission interfaces.',
     skills: [
-      'UART',
-      'USART',
+      'UART / USART',
       'SPI',
       'I2C',
       'CAN',
-      'Modbus RTU',
-      'Modbus TCP',
-      'BLE',
-      'WiFi fundamentals',
       'TCP/IP',
-      'GPIO communication'
+      'Bluetooth',
+      'RFID protocol handling'
     ]
   },
   {
-    id: 'hardware-debugging',
+    id: 'debugging',
     number: '05',
-    title: 'HARDWARE DEBUGGING & BRING-UP',
-    description: 'Physical instrumentation, signal measurement, and hardware-software co-debugging.',
+    title: 'Debugging & Test Benches',
+    description: 'Hardware bring-up, in-circuit tracing, and bench equipment.',
     skills: [
-      'Oscilloscope',
-      'Logic Analyzer',
-      'JTAG',
-      'GDB',
+      'JTAG / SWD',
       'OpenOCD',
-      'Protocol Analyzer',
-      'Schematic Reading',
-      'PCB Troubleshooting',
-      'Hardware Bring-up',
-      'Timing Analysis',
-      'Signal Integrity',
-      'Sensor Interface Validation'
+      'GDB debugger',
+      'Digital Storage Oscilloscope',
+      'Logic Analyzer',
+      'Multimeter',
+      'Function Generator',
+      'Bench Power Supply',
+      'Hardware-in-the-loop validation'
     ]
   },
   {
-    id: 'dev-tools',
+    id: 'tools',
     number: '06',
-    title: 'DEVELOPMENT TOOLS & INFRASTRUCTURE',
-    description: 'Cross-compilation toolchains, build systems, and containerized development.',
+    title: 'Build, CI/CD & Hardware Design',
+    description: 'Toolchains, containers, automation, and circuit CAD.',
     skills: [
-      'GCC',
-      'ARM Embedded Toolchain',
-      'GNU Binutils',
+      'GNU Toolchain (GCC)',
       'Make',
-      'CMake',
-      'GDB',
-      'OpenOCD',
-      'Git',
-      'GitHub',
-      'Jenkins',
+      'Git & GitHub',
       'Docker',
-      'STM32CubeMX',
-      'Linux',
-      'Simulators',
-      'Emulators'
+      'Jenkins CI/CD',
+      'Linux CLI & SSH',
+      'Embedded Linux fundamentals',
+      'Schematic design & PCB layout',
+      'DFM & Power circuits',
+      'Fusion 360'
     ]
   }
 ];
 
 export const TECHNICAL_FOUNDATIONS = [
   {
-    category: 'Microcontroller Platforms',
-    items: ['STM32', 'RISC-V', 'ARM Cortex-M0/M3/M4']
+    category: 'Microcontroller Architectures',
+    items: ['ARM Cortex-M (STM32)', 'ESP32', 'RISC-V']
   },
   {
     category: 'Programming Languages',
-    items: ['C', 'C++', 'Assembly', 'ARM Assembly', 'RISC-V Assembly']
+    items: ['C', 'Embedded C', 'C++', 'ARM Assembly', 'Python', 'Bash']
   },
   {
-    category: 'Operating Systems & Kernels',
-    items: ['FreeRTOS', 'Embedded Linux fundamentals', 'Bare-metal RTOS concepts']
+    category: 'Real-Time & Embedded OS',
+    items: ['FreeRTOS', 'Bare-Metal Scheduling', 'Embedded Linux Fundamentals']
   },
   {
-    category: 'Development & Build Systems',
-    items: ['GCC', 'Clang', 'GDB', 'OpenOCD', 'Make', 'CMake', 'Git', 'GitHub', 'Jenkins', 'Docker']
+    category: 'Toolchains & Build Infrastructure',
+    items: ['GNU GCC (arm-none-eabi-gcc)', 'Make', 'Docker', 'Jenkins CI/CD', 'Git']
   },
   {
-    category: 'Instrumentation & Test Benches',
-    items: ['Oscilloscopes', 'Logic Analyzers', 'Multimeters', 'Protocol Analyzers', 'Signal Generators']
+    category: 'Lab Equipment & Debugging',
+    items: ['OpenOCD', 'GDB', 'ST-Link SWD', 'Digital Storage Oscilloscope', 'Logic Analyzer']
   }
 ];
 
 export const KEY_STRENGTHS: StrengthItem[] = [
   {
     id: 1,
-    title: 'HARDWARE-SOFTWARE INTEGRATION',
-    description: 'Comfortable debugging at register level and understanding hardware behavior through firmware.',
-    metricLabel: 'SILICON ↔ CODE'
+    title: 'SILICON-TO-CODE BRIDGING',
+    description: 'Direct register-level bitfield manipulation referencing reference manuals without opaque vendor HAL layers.',
+    metricLabel: 'REGISTER LEVEL'
   },
   {
     id: 2,
-    title: 'REAL-TIME SYSTEMS',
-    description: 'Understands deterministic behavior, task priorities, interrupt safety and timing constraints.',
-    metricLabel: 'DETERMINISM'
+    title: 'DETERMINISTIC RTOS DESIGN',
+    description: 'Task prioritization, thread-safe queues, and non-blocking ISR deferral under FreeRTOS.',
+    metricLabel: 'FREERTOS'
   },
   {
     id: 3,
-    title: 'PROBLEM SOLVING',
-    description: 'Uses systematic measurement and debugging to isolate hardware and firmware failures.',
+    title: 'HARDWARE-IN-THE-LOOP DEBUGGING',
+    description: 'Systematic in-circuit tracing with OpenOCD/GDB and physical waveform validation with logic analyzers and oscilloscopes.',
     metricLabel: 'INSTRUMENT-FIRST'
   },
   {
     id: 4,
-    title: 'CROSS-FUNCTIONAL COLLABORATION',
-    description: 'Works across firmware, PCB, hardware and systems engineering.',
-    metricLabel: 'SYSTEMS BRIDGING'
+    title: 'CONTAINERIZED CI/CD TOOLCHAINS',
+    description: 'Reproducible Docker development environments and automated Jenkins pipelines for embedded builds.',
+    metricLabel: 'DOCKER & CI/CD'
   },
   {
     id: 5,
-    title: 'DOCUMENTATION & CODE QUALITY',
-    description: 'Maintains clean, buildable repositories with proper build systems and technical documentation.',
-    metricLabel: 'STANDARDS-COMPLIANT'
+    title: 'HARDWARE & MANUFACTURING AWARENESS',
+    description: 'Experience in schematic design, circuit testing, and AutoCAD technical drawings for industrial production.',
+    metricLabel: 'HARDWARE & CAD'
   },
   {
     id: 6,
-    title: 'RAPID PROTOTYPING',
-    description: 'Comfortable with iterative hardware-firmware validation cycles.',
-    metricLabel: 'BRING-UP SPEED'
+    title: 'OPEN SOURCE CONTRIBUTOR',
+    description: 'Active contributor to compiler infrastructure (LLVM) and multi-architecture ARM software porting.',
+    metricLabel: 'SYSTEMS CODE'
   }
 ];
 
 export const FEATURED_REPOSITORIES = [
   {
     name: 'Driver-for-STM32F030x4-x6-x8-xC',
-    fullName: 'varunkumarjob898/Driver-for-STM32F030x4-x6-x8-xC',
-    url: 'https://github.com/varunkumarjob898/Driver-for-STM32F030x4-x6-x8-xC',
-    description: 'Register-level device drivers for STM32F030 ARM Cortex-M0 microcontrollers. Implemented 8 core peripherals (GPIO, RCC, NVIC, SYSCFG, EXTI, ADC, SPI, I2C) from reference manuals.',
+    fullName: 'varunkumar898/Driver-for-STM32F030x4-x6-x8-xC',
+    url: 'https://github.com/varunkumar898/Driver-for-STM32F030x4-x6-x8-xC',
+    description: 'Register-level bare-metal device drivers for STM32F030 (ARM Cortex-M0) in Embedded C. Drivers for GPIO, RCC, NVIC, EXTI, SYSCFG, ADC, SPI, and I2C with startup code, linker script, and Makefile.',
     language: 'C',
     languageColor: '#555555',
-    commits: '17 commits',
-    status: 'Production Ready',
+    commits: '17+ commits',
+    status: 'Public Repository',
     target: 'ARM Cortex-M0',
-    tags: ['Embedded C', 'Bare-Metal', 'STM32F030', 'Device Drivers', 'Makefile']
+    tags: ['Embedded C', 'Bare-Metal', 'STM32F030', 'Device Drivers', 'Makefile', 'OpenOCD']
   },
   {
-    name: 'Gravel-Launcher',
-    fullName: 'Pacsfury/Gravel-Launcher',
-    url: 'https://github.com/Pacsfury/Gravel-Launcher',
-    description: 'Contributed to compiler backend infrastructure including AST construction, tokenizer refinement, and LLVM code generation optimization. Merged pull request.',
-    language: 'C++',
-    languageColor: '#f34b7d',
-    commits: 'Merged PR',
-    status: 'Merged Contribution',
-    target: 'LLVM Backend',
-    tags: ['C++', 'Compilers', 'LLVM', 'Lexer', 'AST']
-  },
-  {
-    name: 'Smart-Number-Plating-Firmware',
-    fullName: 'varunkumarjob898/Smart-Number-Plating-Firmware',
-    url: 'https://github.com/varunkumarjob898',
-    description: 'Real-time FreeRTOS automotive firmware combining RFID tag authentication, GPS geofencing telemetry, and ignition lockout actuator control logic.',
+    name: 'Smart-Number-Plate-Firmware',
+    fullName: 'varunkumar898/Smart-Number-Plate-Firmware',
+    url: 'https://github.com/varunkumar898',
+    description: 'Real-time FreeRTOS automotive prototype firmware combining RFID authentication, closed-loop control logic, and hardware protection circuits.',
     language: 'C',
     languageColor: '#555555',
     commits: 'Active Prototype',
     status: 'Hardware Validated',
-    target: 'FreeRTOS / ARM',
-    tags: ['FreeRTOS', 'Embedded C', 'RFID', 'GPS', 'Queues']
+    target: 'ARM / FreeRTOS',
+    tags: ['FreeRTOS', 'Embedded C', 'RFID', 'Queues', 'Logic Analyzer']
+  },
+  {
+    name: 'Embedded-UI-Designer',
+    fullName: 'varunkumar898/Embedded-UI-Designer',
+    url: 'https://github.com/varunkumar898',
+    description: 'Desktop UI design tool for embedded systems with an SDK, type-safe REST API engine, and multi-language firmware code generator for microcontrollers.',
+    language: 'TypeScript / C++',
+    languageColor: '#3178c6',
+    commits: 'Final Year Project',
+    status: 'Complete SDK',
+    target: 'Desktop / MCU',
+    tags: ['Desktop Tool', 'Code Generator', 'SDK', 'TypeScript', 'C++']
   }
-];
-
-export const LAB_WORKFLOW_STEPS = [
-  { step: '01', title: 'OBSERVE', desc: 'Identify unexpected behavior, communication faults, or reset triggers.' },
-  { step: '02', title: 'REPRODUCE', desc: 'Create minimal test firmware to trigger the issue deterministically.' },
-  { step: '03', title: 'MEASURE', desc: 'Probe physical pins with oscilloscope and logic analyzer for timing violations.' },
-  { step: '04', title: 'ISOLATE', desc: 'Inspect peripheral registers, clock configuration, and interrupt vectors via GDB.' },
-  { step: '05', title: 'DEBUG', desc: 'Correct register bitfields, timing delays, or task synchronization locks.' },
-  { step: '06', title: 'VALIDATE', desc: 'Verify physical waveforms, packet decode integrity, and long-term stability.' }
-];
-
-export const DEBUGGING_FLOWCHART = [
-  { id: '1', label: 'FIRMWARE PROBLEM' },
-  { id: '2', label: 'CHECK REGISTERS' },
-  { id: '3', label: 'VERIFY CLOCK' },
-  { id: '4', label: 'CHECK PERIPHERAL CONFIGURATION' },
-  { id: '5', label: 'MEASURE SIGNAL' },
-  { id: '6', label: 'CHECK TIMING' },
-  { id: '7', label: 'TRACE FIRMWARE' },
-  { id: '8', label: 'VALIDATE ON SILICON' }
-];
-
-export const LAB_INSTRUMENTS = [
-  { name: 'Oscilloscope', role: 'Rise/fall time measurement, signal noise, bus ringing, analog sensor validation.' },
-  { name: 'Logic Analyzer', role: 'Protocol packet decode (UART/SPI/I2C/CAN), state machine timing verification.' },
-  { name: 'GDB', role: 'Hardware breakpoints, register inspection, call stack unwinding, memory dumping.' },
-  { name: 'OpenOCD', role: 'SWD/JTAG in-circuit emulator server, flash programming, target control.' },
-  { name: 'JTAG / SWD', role: 'Hardware debug interface directly communicating with ARM/RISC-V debug cores.' },
-  { name: 'Multimeter', role: 'Supply voltage rail stability, current draw profiling, continuity checks.' },
-  { name: 'Protocol Analyzer', role: 'Frame-level protocol decoding, CRC checksum verification, bus arbitration.' }
 ];
